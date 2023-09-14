@@ -4,12 +4,10 @@ import { SimpleGrid, Box } from '@chakra-ui/react'
 function App() {
   return (
     <>
-      <SimpleGrid minChildWidth="300px" spacing="40px" p={4}>
-        <Box bg="tomato" height="80px"></Box>
-        <Box bg="tomato" height="80px"></Box>
-        <Box bg="tomato" height="80px"></Box>
-        <Box bg="tomato" height="80px"></Box>
-        <Box bg="tomato" height="80px"></Box>
+      <SimpleGrid columns={3} gap="32px" p={4}>
+        <Box bg="tomato" h="96vh"></Box>
+        <Box bg="tomato" h="96vh"></Box>
+        <Box bg="tomato" h="96vh"></Box>
       </SimpleGrid>
     </>
   )
