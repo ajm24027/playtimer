@@ -1,13 +1,28 @@
 import './global.css'
-import { SimpleGrid, Box } from '@chakra-ui/react'
+import { useState } from 'react'
+import { SimpleGrid, Box, Button } from '@chakra-ui/react'
 
 function App() {
+  const [currentBoxCount, setCurrentBoxCount] = useState<number>(1)
+
+  const addBox = (): void => {
+    setCurrentBoxCount(currentBoxCount + 1)
+  }
+
+  const renderBoxes = (currentBoxCount: number) => {
+    return [...Array(currentBoxCount)].map((currentBox: number) => (
+      <Box bg="tomato" h="96.5vh">
+        <Button colorScheme="blue" onClick={addBox}>
+          Add Box
+        </Button>
+      </Box>
+    ))
+  }
+
   return (
     <>
-      <SimpleGrid columns={3} gap="32px" p={4}>
-        <Box bg="tomato" h="96vh"></Box>
-        <Box bg="tomato" h="96vh"></Box>
-        <Box bg="tomato" h="96vh"></Box>
+      <SimpleGrid columns={3} gap="40px" p={4}>
+        {renderBoxes(currentBoxCount)}
       </SimpleGrid>
     </>
   )
