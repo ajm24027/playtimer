@@ -48,6 +48,10 @@ Below is the Component Hierarchy Diagram. My goal in development is program a ti
 
 ## My process
 
+I've had some time to think through and update the process. But the major changes so far, is that the timers will be side by side in the grid rather than 3 long strips, and they won't automatically render another empty timer, rather a button on the page will allow users to "add a timer" which renders a modal with inputs for users. I've had time to come up with a lo-fi mockup that has helped me to think through the logic a little bit better.
+
+![Playtimer's Component Hierarchy Diagram](./public/playtimer-lofi.png)
+
 ### Built with
 
 - ReactJS
