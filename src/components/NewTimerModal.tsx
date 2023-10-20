@@ -12,6 +12,7 @@ import {
 import { useState } from 'react'
 import { Timer } from '../types/app-types'
 import NamingPhase from './ModalSteps/NamingPhase'
+import GamingPhase from './ModalSteps/GamingPhase'
 
 enum Phase {
   Naming,
@@ -19,9 +20,9 @@ enum Phase {
   Timing
 }
 
-const NewTimerModal = ({ timers, setTimers }) => {
+const NewTimerModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [phase, setPhase] = useState<Phase>(Phase.Naming)
+  const [phase, setPhase] = useState<Phase>(Phase.Gaming)
   const [newTimerParams, setNewTimerParams] = useState<Timer>({
     title: '',
     game: '',
@@ -35,7 +36,6 @@ const NewTimerModal = ({ timers, setTimers }) => {
         return (
           <NamingPhase
             onClickNext={(title: string) => {
-              console.log('onClickNext function called with title:', title)
               setNewTimerParams({ ...newTimerParams, title })
               console.log('newTimerParams.title:', newTimerParams.title)
               setPhase(Phase.Gaming)
@@ -43,7 +43,15 @@ const NewTimerModal = ({ timers, setTimers }) => {
           />
         )
       case Phase.Gaming:
-        return <>Hello</>
+        return (
+          <GamingPhase
+            onClickNext={(game: string) => {
+              setNewTimerParams({ ...newTimerParams, game })
+              console.log('newTimerParams.game:', newTimerParams.game)
+              setPhase(Phase.Timing)
+            }}
+          />
+        )
     }
   }
 
@@ -54,7 +62,7 @@ const NewTimerModal = ({ timers, setTimers }) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay bg="none" backdropFilter="auto" backdropBlur="2px" />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>{phase}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>{renderModalByPhase()}</ModalBody>
 
