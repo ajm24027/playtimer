@@ -13,16 +13,17 @@ import { useState } from 'react'
 import { Timer } from '../types/app-types'
 import NamingPhase from './ModalSteps/NamingPhase'
 import GamingPhase from './ModalSteps/GamingPhase'
+import TimingPhase from './ModalSteps/TimingPhase'
 
 enum Phase {
-  Naming,
-  Gaming,
-  Timing
+  SetName,
+  SetGameType,
+  SetCountdown
 }
 
 const NewTimerModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [phase, setPhase] = useState<Phase>(Phase.Gaming)
+  const [phase, setPhase] = useState<Phase>(Phase.SetName)
   const [newTimerParams, setNewTimerParams] = useState<Timer>({
     title: '',
     game: '',
@@ -32,23 +33,31 @@ const NewTimerModal = () => {
 
   const renderModalByPhase = () => {
     switch (phase) {
-      case Phase.Naming:
+      case Phase.SetName:
         return (
           <NamingPhase
             onClickNext={(title: string) => {
               setNewTimerParams({ ...newTimerParams, title })
-              console.log('newTimerParams.title:', newTimerParams.title)
-              setPhase(Phase.Gaming)
+              setPhase(Phase.SetGameType)
             }}
           />
         )
-      case Phase.Gaming:
+      case Phase.SetGameType:
         return (
           <GamingPhase
             onClickNext={(game: string) => {
               setNewTimerParams({ ...newTimerParams, game })
-              console.log('newTimerParams.game:', newTimerParams.game)
-              setPhase(Phase.Timing)
+              setPhase(Phase.SetCountdown)
+            }}
+          />
+        )
+      case Phase.SetCountdown:
+        return (
+          <TimingPhase
+            onClickNext={(initialTime: string) => {
+              setNewTimerParams({ ...newTimerParams, initialTime })
+              setPhase(Phase.SetName)
+              onClose()
             }}
           />
         )
