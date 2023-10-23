@@ -9,6 +9,7 @@ import {
   ModalCloseButton,
   Button
 } from '@chakra-ui/react'
+import { AddIcon } from '@chakra-ui/icons'
 import { useState, useEffect } from 'react'
 import { Timer } from '../types/app-types'
 import NamingPhase from './ModalSteps/NamingPhase'
@@ -90,7 +91,18 @@ const NewTimerModal = ({ onModalComplete }) => {
 
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
+      <Button
+        colorScheme="blue"
+        pos="absolute"
+        bottom="1.5%"
+        right="1%"
+        h="3rem"
+        w="3rem"
+        borderRadius="200px"
+        onClick={onOpen}
+      >
+        <AddIcon />
+      </Button>
 
       <Modal isOpen={isOpen} onClose={resetModal}>
         <ModalOverlay bg="none" backdropFilter="auto" backdropBlur="2px" />
