@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef } from 'react'
 
-const TimerComp = ({ name, initialTime, timeAtPause, game }) => {
+const TimerComp = ({ name, initialTime, game }) => {
   const Ref = useRef(null)
   const [timer, setTimer] = useState('00:00:00')
   const [isPaused, setIsPaused] = useState(false)
+  const [timeAtPause, setTimeAtPause] = useState('')
 
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date())
@@ -72,25 +73,16 @@ const TimerComp = ({ name, initialTime, timeAtPause, game }) => {
   }
 
   useEffect(() => {
-    console.log(
-      'timer is being mounted, this is the name > ',
-      name,
-      'this is the initialTime > ',
-      initialTime,
-      'this is the game >',
-      game,
-      'this is the timeAtPause',
-      timeAtPause
-    )
     clearTimer(getDeadTime(initialTime))
   }, [])
 
   const onClickReset = () => {
+    console.log("This is the timer's initial time", initialTime)
     clearTimer(getDeadTime(initialTime))
   }
 
   const onClickPause = () => {
-    timeAtPause = timer
+    setTimeAtPause(timer)
     console.log(Boolean(timeAtPause))
     clearInterval(Ref.current)
     setIsPaused(!isPaused)

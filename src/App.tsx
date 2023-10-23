@@ -20,7 +20,6 @@ const App = () => {
           name={timer.title}
           initialTime={timer.initialTime}
           game={timer.game}
-          timeAtPause={timer.timeAtPause}
         />
       ))}
     </>
