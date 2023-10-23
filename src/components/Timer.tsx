@@ -1,7 +1,6 @@
-import './global.css'
 import { useEffect, useState, useRef } from 'react'
 
-const TimerComp = () => {
+const TimerComp = ({ name, initialTime, timeAtPause, game }) => {
   const Ref = useRef(null)
   const [timer, setTimer] = useState('00:00:00')
   const [isPaused, setIsPaused] = useState(false)
@@ -35,10 +34,10 @@ const TimerComp = () => {
   }
 
   const clearTimer = (deadline) => {
-    if (!boosterBox.timeAtPause || timer == '00:00:00') {
-      setTimer(boosterBox.initialTime)
+    if (!timeAtPause || timer == '00:00:00') {
+      setTimer(initialTime)
     } else {
-      setTimer(boosterBox.timeAtPause)
+      setTimer(timeAtPause)
     }
 
     if (Ref.current) clearInterval(Ref.current)
@@ -73,22 +72,32 @@ const TimerComp = () => {
   }
 
   useEffect(() => {
-    clearTimer(getDeadTime(boosterBox.initialTime))
+    console.log(
+      'timer is being mounted, this is the name > ',
+      name,
+      'this is the initialTime > ',
+      initialTime,
+      'this is the game >',
+      game,
+      'this is the timeAtPause',
+      timeAtPause
+    )
+    clearTimer(getDeadTime(initialTime))
   }, [])
 
   const onClickReset = () => {
-    clearTimer(getDeadTime(boosterBox.initialTime))
+    clearTimer(getDeadTime(initialTime))
   }
 
   const onClickPause = () => {
-    boosterBox.timeAtPause = timer
-    console.log(Boolean(boosterBox.timeAtPause))
+    timeAtPause = timer
+    console.log(Boolean(timeAtPause))
     clearInterval(Ref.current)
     setIsPaused(!isPaused)
   }
 
   const onClickResume = () => {
-    clearTimer(getDeadTime(boosterBox.timeAtPause))
+    clearTimer(getDeadTime(timeAtPause))
     setIsPaused(!isPaused)
   }
 
@@ -101,8 +110,9 @@ const TimerComp = () => {
   }
 
   return (
-    <div className="App">
-      <h2>{timer}</h2>
+    <div>
+      <h2>{name}</h2>
+      <h3>{timer}</h3>
       <button onClick={onClickReset}>Reset</button>
       {renderMoreControls()}
     </div>

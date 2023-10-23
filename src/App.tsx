@@ -7,12 +7,6 @@ import { useState } from 'react'
 const App = () => {
   const [timers, setTimers] = useState<Timer[]>([])
 
-  // const renderTimer () => {
-  //   if (timers.length >= 1) {
-  //     return <TimerComp />
-  //   }
-  // }
-
   return (
     <>
       <NewTimerModal
@@ -20,6 +14,15 @@ const App = () => {
           setTimers([...timers, newTimerObj])
         }}
       />
+      {timers.map((timer, i) => (
+        <TimerComp
+          key={i}
+          name={timer.title}
+          initialTime={timer.initialTime}
+          game={timer.game}
+          timeAtPause={timer.timeAtPause}
+        />
+      ))}
     </>
   )
 }
