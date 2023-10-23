@@ -95,7 +95,7 @@ const TimingPhase = ({ onClickNext }) => {
               (seconds > 9 ? seconds : '0' + seconds)
             )
           }
-          console.log(formattedCountdown())
+          // console.log(formattedCountdown())
           onClickNext(formattedCountdown())
         }}
       >

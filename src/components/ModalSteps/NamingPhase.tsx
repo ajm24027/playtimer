@@ -11,7 +11,7 @@ import { useState } from 'react'
 const NamingPhase = ({ onClickNext }) => {
   const [name, setName] = useState('')
 
-  console.log('This is name currently: ', name)
+  // console.log('This is name currently: ', name)
   return (
     <Container>
       <FormControl>

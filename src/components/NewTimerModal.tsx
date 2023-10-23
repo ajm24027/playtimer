@@ -9,7 +9,7 @@ import {
   ModalCloseButton,
   Button
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Timer } from '../types/app-types'
 import NamingPhase from './ModalSteps/NamingPhase'
 import GamingPhase from './ModalSteps/GamingPhase'
@@ -21,7 +21,7 @@ enum Phase {
   SetCountdown
 }
 
-const NewTimerModal = () => {
+const NewTimerModal = ({ onModalComplete }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [phase, setPhase] = useState<Phase>(Phase.SetName)
   const [newTimerParams, setNewTimerParams] = useState<Timer>({
@@ -30,6 +30,13 @@ const NewTimerModal = () => {
     initialTime: '',
     timeAtPause: ''
   })
+
+  const initialTimerParams = {
+    title: '',
+    game: '',
+    initialTime: '',
+    timeAtPause: ''
+  }
 
   const renderModalByPhase = () => {
     switch (phase) {
@@ -64,11 +71,28 @@ const NewTimerModal = () => {
     }
   }
 
+  const resetModal = () => {
+    onClose()
+    setPhase(Phase.SetName)
+    setNewTimerParams(initialTimerParams)
+  }
+
+  useEffect(() => {
+    if (
+      newTimerParams.title &&
+      newTimerParams.game &&
+      newTimerParams.initialTime
+    ) {
+      onModalComplete(newTimerParams)
+      setNewTimerParams(initialTimerParams)
+    }
+  }, [newTimerParams])
+
   return (
     <>
       <Button onClick={onOpen}>Open Modal</Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={resetModal}>
         <ModalOverlay bg="none" backdropFilter="auto" backdropBlur="2px" />
         <ModalContent>
           <ModalHeader>{phase}</ModalHeader>

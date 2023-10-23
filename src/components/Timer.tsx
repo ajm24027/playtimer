@@ -1,15 +1,7 @@
 import './global.css'
 import { useEffect, useState, useRef } from 'react'
-import { SimpleGrid, Box, Button } from '@chakra-ui/react'
 
-const boosterBox = {
-  title: 'Super Awesome Spoils Tournament',
-  game: 'The Spoils',
-  initialTime: '00:00:05',
-  timeAtPause: ''
-}
-
-const Timer = () => {
+const TimerComp = () => {
   const Ref = useRef(null)
   const [timer, setTimer] = useState('00:00:00')
   const [isPaused, setIsPaused] = useState(false)
@@ -117,4 +109,4 @@ const Timer = () => {
   )
 }
 
-export default Timer
+export default TimerComp
