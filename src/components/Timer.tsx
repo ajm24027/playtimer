@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+import '../global.css'
 
 const TimerComp = ({ name, initialTime, game }) => {
   const Ref = useRef(null)
@@ -103,8 +104,8 @@ const TimerComp = ({ name, initialTime, game }) => {
 
   return (
     <div>
-      <h2>{name}</h2>
-      <h3>{timer}</h3>
+      <h2 className="timer-name">{name}</h2>
+      <h2 className="timer-time">{timer}</h2>
       <button onClick={onClickReset}>Reset</button>
       {renderMoreControls()}
     </div>
