@@ -1,4 +1,4 @@
-import { useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from '@chakra-ui/react'
 import {
   Modal,
   ModalOverlay,
@@ -7,37 +7,37 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Button,
-} from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
-import { useState, useEffect } from "react";
-import { Timer } from "../types/app-types";
-import NamingPhase from "./ModalSteps/NamingPhase";
-import GamingPhase from "./ModalSteps/GamingPhase";
-import TimingPhase from "./ModalSteps/TimingPhase";
+  Button
+} from '@chakra-ui/react'
+import { AddIcon } from '@chakra-ui/icons'
+import { useState, useEffect } from 'react'
+import { Timer } from '../types/app-types'
+import NamingPhase from './ModalSteps/NamingPhase'
+import GamingPhase from './ModalSteps/GamingPhase'
+import TimingPhase from './ModalSteps/TimingPhase'
 
 enum Phase {
   SetName,
   SetGameType,
-  SetCountdown,
+  SetCountdown
 }
 
 const NewTimerModal = ({ onModalComplete }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [phase, setPhase] = useState<Phase>(Phase.SetName);
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [phase, setPhase] = useState<Phase>(Phase.SetName)
   const [newTimerParams, setNewTimerParams] = useState<Timer>({
-    title: "",
-    game: "",
-    initialTime: "",
-    timeAtPause: "",
-  });
+    title: '',
+    game: '',
+    initialTime: '',
+    timeAtPause: ''
+  })
 
   const initialTimerParams = {
-    title: "",
-    game: "",
-    initialTime: "",
-    timeAtPause: "",
-  };
+    title: '',
+    game: '',
+    initialTime: '',
+    timeAtPause: ''
+  }
 
   const renderModalByPhase = () => {
     switch (phase) {
@@ -45,38 +45,38 @@ const NewTimerModal = ({ onModalComplete }) => {
         return (
           <NamingPhase
             onClickNext={(title: string) => {
-              setNewTimerParams({ ...newTimerParams, title });
-              setPhase(Phase.SetGameType);
+              setNewTimerParams({ ...newTimerParams, title })
+              setPhase(Phase.SetGameType)
             }}
           />
-        );
+        )
       case Phase.SetGameType:
         return (
           <GamingPhase
             onClickNext={(game: string) => {
-              setNewTimerParams({ ...newTimerParams, game });
-              setPhase(Phase.SetCountdown);
+              setNewTimerParams({ ...newTimerParams, game })
+              setPhase(Phase.SetCountdown)
             }}
           />
-        );
+        )
       case Phase.SetCountdown:
         return (
           <TimingPhase
             onClickNext={(initialTime: string) => {
-              setNewTimerParams({ ...newTimerParams, initialTime });
-              setPhase(Phase.SetName);
-              onClose();
+              setNewTimerParams({ ...newTimerParams, initialTime })
+              setPhase(Phase.SetName)
+              onClose()
             }}
           />
-        );
+        )
     }
-  };
+  }
 
   const resetModal = () => {
-    onClose();
-    setPhase(Phase.SetName);
-    setNewTimerParams(initialTimerParams);
-  };
+    onClose()
+    setPhase(Phase.SetName)
+    setNewTimerParams(initialTimerParams)
+  }
 
   useEffect(() => {
     if (
@@ -84,10 +84,10 @@ const NewTimerModal = ({ onModalComplete }) => {
       newTimerParams.game &&
       newTimerParams.initialTime
     ) {
-      onModalComplete(newTimerParams);
-      setNewTimerParams(initialTimerParams);
+      onModalComplete(newTimerParams)
+      setNewTimerParams(initialTimerParams)
     }
-  }, [newTimerParams]);
+  }, [newTimerParams])
 
   return (
     <>
@@ -115,7 +115,7 @@ const NewTimerModal = ({ onModalComplete }) => {
         </ModalContent>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default NewTimerModal;
+export default NewTimerModal
