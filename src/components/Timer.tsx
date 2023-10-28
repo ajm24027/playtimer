@@ -106,6 +106,8 @@ const TimerComp = ({ name, initialTime, game }) => {
     clearTimer(getDeadTime(initialTime))
   }, [])
 
+  // I think it'd be better feedback instead of using isIntermediate (in the progress bar) to set a value equal to the number of seconds left and then write a function to update value every 1000 seconds. This way users can see how much time is left, rather than a heartbeat. But right now, any feedback is better than none.
+
   return (
     <Flex justifyContent="center" alignItems="center" mt={10}>
       <Box
