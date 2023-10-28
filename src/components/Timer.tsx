@@ -1,106 +1,107 @@
-import { useEffect, useState, useRef } from 'react'
-import '../global.css'
+import { useEffect, useState, useRef } from "react";
+import "../global.css";
 
 const TimerComp = ({ name, initialTime, game }) => {
-  const Ref = useRef(null)
-  const [timer, setTimer] = useState('00:00:00')
-  const [isPaused, setIsPaused] = useState(false)
-  const [timeAtPause, setTimeAtPause] = useState('')
+  const Ref = useRef(null);
+  const [timer, setTimer] = useState("00:00");
+  const [isPaused, setIsPaused] = useState(false);
+  const [timeAtPause, setTimeAtPause] = useState("");
+  const [timerExpired, setTimerExpired] = useState(false);
 
   const getTimeRemaining = (e) => {
-    const total = Date.parse(e) - Date.parse(new Date())
-    const seconds = Math.floor((total / 1000) % 60)
-    const minutes = Math.floor((total / 1000 / 60) % 60)
-    const hours = Math.floor((total / 1000 / 60 / 60) % 24)
-    console.log(total, hours, minutes, seconds)
-    console.log('This is the timer', timer)
+    const total = Date.parse(e) - Date.parse(new Date());
+    const seconds = Math.floor((total / 1000) % 60);
+    const minutes = Math.floor((total / 1000 / 60) % 60);
+    const hours = Math.floor((total / 1000 / 60 / 60) % 24);
     return {
       total,
       hours,
       minutes,
-      seconds
-    }
-  }
+      seconds,
+    };
+  };
 
   const startTimer = (e) => {
-    let { total, hours, minutes, seconds } = getTimeRemaining(e)
-    if (total >= 0) {
+    let { total, hours, minutes, seconds } = getTimeRemaining(e);
+
+    if (total <= 0) {
+      // Total has reached or passed 0, clear the interval
+      clearInterval(Ref.current);
+      setTimer("X");
+      setTimerExpired(true);
+    } else if (total < 60000) {
+      setTimer(seconds > 9 ? seconds : "0" + seconds);
+    } else {
       setTimer(
-        (hours > 9 ? hours : '0' + hours) +
-          ':' +
-          (minutes > 9 ? minutes : '0' + minutes) +
-          ':' +
-          (seconds > 9 ? seconds : '0' + seconds)
-      )
+        (hours > 9 ? hours : "0" + hours) +
+          ":" +
+          (minutes > 9 ? minutes : "0" + minutes)
+      );
     }
-  }
+  };
 
   const clearTimer = (deadline) => {
-    if (!timeAtPause || timer == '00:00:00') {
-      setTimer(initialTime)
+    if (!timeAtPause) {
+      setTimer(initialTime);
     } else {
-      setTimer(timeAtPause)
+      setTimer(timeAtPause);
     }
 
-    if (Ref.current) clearInterval(Ref.current)
+    if (Ref.current) clearInterval(Ref.current);
     const id = setInterval(() => {
-      startTimer(deadline)
-    }, 1000)
-    Ref.current = id
-  }
+      startTimer(deadline);
+    }, 1000);
+    Ref.current = id;
+  };
 
-  const getDeadTime = (timeString: string) => {
-    let deadline = new Date()
-    // console.log('This is the deadline before modification > ', deadline)
+  const getDeadTime = (timeString) => {
+    let deadline = new Date();
+    if (typeof timeString === "number") {
+      deadline.setSeconds(deadline.getSeconds() + timeString);
+    } else {
+      const arrayFromTimeString = timeString.split(":");
+      const hours = parseInt(arrayFromTimeString[0]);
+      const minutes = parseInt(arrayFromTimeString[1]);
+      deadline.setMinutes(deadline.getMinutes() + minutes);
+      deadline.setHours(deadline.getHours() + hours);
+    }
 
-    // console.log('This is the incoming timeString > ', timeString)
-    const arrayFromTimeString = timeString.split(':')
-    // console.log(
-    //   'This is the outgoing arrayFromTimeString > ',
-    //   arrayFromTimeString
-    // )
-    const hours = parseInt(arrayFromTimeString[0])
-    // console.log('This is hours ', hours)
-    const minutes = parseInt(arrayFromTimeString[1])
-    // console.log('This is minutes ', minutes)
-    const seconds = parseInt(arrayFromTimeString[2])
-    // console.log('This is seconds ', seconds)
-
-    deadline.setSeconds(deadline.getSeconds() + seconds)
-    deadline.setMinutes(deadline.getMinutes() + minutes)
-    deadline.setHours(deadline.getHours() + hours)
-    // console.log('This is the deadline > ', deadline)
-    return deadline
-  }
-
-  useEffect(() => {
-    clearTimer(getDeadTime(initialTime))
-  }, [])
+    return deadline;
+  };
 
   const onClickReset = () => {
-    console.log("This is the timer's initial time", initialTime)
-    clearTimer(getDeadTime(initialTime))
-  }
+    console.log("This is the timer's initial time", initialTime);
+    clearTimer(getDeadTime(initialTime));
+  };
 
   const onClickPause = () => {
-    setTimeAtPause(timer)
-    console.log(Boolean(timeAtPause))
-    clearInterval(Ref.current)
-    setIsPaused(!isPaused)
-  }
+    setTimeAtPause(timer);
+    clearInterval(Ref.current);
+    setIsPaused(!isPaused);
+  };
 
   const onClickResume = () => {
-    clearTimer(getDeadTime(timeAtPause))
-    setIsPaused(!isPaused)
-  }
+    clearTimer(getDeadTime(timeAtPause));
+    setIsPaused(!isPaused);
+  };
 
   const renderMoreControls = () => {
     return !isPaused ? (
       <button onClick={onClickPause}>Pause</button>
     ) : (
       <button onClick={onClickResume}>Start</button>
-    )
-  }
+    );
+  };
+
+  useEffect(() => {
+    clearTimer(getDeadTime(initialTime));
+  }, []);
+
+  useEffect(() => {
+    if (timerExpired) {
+      console.log("timer expired");
+    }
+  }, [timerExpired]);
 
   return (
     <div>
@@ -109,7 +110,7 @@ const TimerComp = ({ name, initialTime, game }) => {
       <button onClick={onClickReset}>Reset</button>
       {renderMoreControls()}
     </div>
-  )
-}
+  );
+};
 
-export default TimerComp
+export default TimerComp;

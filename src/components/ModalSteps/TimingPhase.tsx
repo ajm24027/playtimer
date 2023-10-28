@@ -6,16 +6,16 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   HStack,
-  Button
-} from '@chakra-ui/react'
-import { useState } from 'react'
+  Button,
+} from "@chakra-ui/react";
+import { useState } from "react";
 
 const TimingPhase = ({ onClickNext }) => {
   const [countdown, SetCountDown] = useState({
     hours: 0,
     minutes: 0,
-    seconds: 0
-  })
+    seconds: 0,
+  });
 
   const renderNumInputs = () => {
     return (
@@ -56,7 +56,7 @@ const TimingPhase = ({ onClickNext }) => {
           </NumberInput>
           <p>Minutes</p>
         </VStack>
-        <VStack>
+        {/* <VStack>
           <NumberInput
             defaultValue={0}
             value={countdown.seconds}
@@ -74,10 +74,10 @@ const TimingPhase = ({ onClickNext }) => {
             </NumberInputStepper>
           </NumberInput>
           <p>Seconds</p>
-        </VStack>
+        </VStack> */}
       </HStack>
-    )
-  }
+    );
+  };
 
   return (
     <>
@@ -86,23 +86,26 @@ const TimingPhase = ({ onClickNext }) => {
         type="submit"
         onClick={() => {
           const formattedCountdown = () => {
-            const { hours, minutes, seconds } = countdown
+            const { hours, minutes, seconds } = countdown;
             return (
-              (hours > 9 ? hours : '0' + hours) +
-              ':' +
-              (minutes > 9 ? minutes : '0' + minutes) +
-              ':' +
-              (seconds > 9 ? seconds : '0' + seconds)
-            )
-          }
+              // (hours > 9 ? hours : "0" + hours) +
+              // ":" +
+              // (minutes > 9 ? minutes : "0" + minutes) +
+              // ":" +
+              // (seconds > 9 ? seconds : "0" + seconds)
+              (hours > 9 ? hours : "0" + hours) +
+              ":" +
+              (minutes > 9 ? minutes : "0" + minutes)
+            );
+          };
           // console.log(formattedCountdown())
-          onClickNext(formattedCountdown())
+          onClickNext(formattedCountdown());
         }}
       >
         Create Timer
       </Button>
     </>
-  )
-}
+  );
+};
 
-export default TimingPhase
+export default TimingPhase;
