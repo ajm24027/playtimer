@@ -1,97 +1,89 @@
-import { useEffect, useState, useRef } from "react";
-import {
-  Progress,
-  Flex,
-  Box,
-  Center,
-  Text,
-  VStack,
-  AbsoluteCenter,
-} from "@chakra-ui/react";
-import "../global.css";
+import { useEffect, useState, useRef } from 'react'
+import { Progress, Flex, Box, Center, Text, VStack } from '@chakra-ui/react'
+import '../global.css'
 
 const TimerComp = ({ name, initialTime, game }) => {
-  const Ref = useRef(null);
-  const [timer, setTimer] = useState("00:00");
-  const [isPaused, setIsPaused] = useState(false);
-  const [timeAtPause, setTimeAtPause] = useState("");
-  const [isExpired, setIsExpired] = useState(false);
+  const Ref = useRef(null)
+  const [timer, setTimer] = useState('00:00')
+  const [isPaused, setIsPaused] = useState(false)
+  const [timeAtPause, setTimeAtPause] = useState('')
+  const [isExpired, setIsExpired] = useState(false)
 
   const getTimeRemaining = (e) => {
-    const total = Date.parse(e) - Date.parse(new Date());
-    const seconds = Math.floor((total / 1000) % 60);
-    const minutes = Math.floor((total / 1000 / 60) % 60);
-    const hours = Math.floor((total / 1000 / 60 / 60) % 24);
+    const total = Date.parse(e) - Date.parse(new Date())
+    const seconds = Math.floor((total / 1000) % 60)
+    const minutes = Math.floor((total / 1000 / 60) % 60)
+    const hours = Math.floor((total / 1000 / 60 / 60) % 24)
     return {
       total,
       hours,
       minutes,
-      seconds,
-    };
-  };
+      seconds
+    }
+  }
 
   const startTimer = (e) => {
-    let { total, hours, minutes, seconds } = getTimeRemaining(e);
+    let { total, hours, minutes, seconds } = getTimeRemaining(e)
 
     if (total <= 0) {
-      clearInterval(Ref.current);
-      setTimer("X");
-      setIsExpired(true);
+      clearInterval(Ref.current)
+      setTimer('X')
+      setIsExpired(true)
     } else if (total < 60000) {
-      setTimer(seconds > 9 ? seconds : "0" + seconds);
+      setTimer(seconds > 9 ? seconds : '0' + seconds)
     } else {
       setTimer(
-        (hours > 9 ? hours : "0" + hours) +
-          ":" +
-          (minutes > 9 ? minutes : "0" + minutes)
-      );
+        (hours > 9 ? hours : '0' + hours) +
+          ':' +
+          (minutes > 9 ? minutes : '0' + minutes)
+      )
     }
-  };
+  }
 
   const clearTimer = (deadline) => {
     if (!timeAtPause) {
-      setTimer(initialTime);
+      setTimer(initialTime)
     } else {
-      setTimer(timeAtPause);
+      setTimer(timeAtPause)
     }
 
-    if (Ref.current) clearInterval(Ref.current);
+    if (Ref.current) clearInterval(Ref.current)
     const id = setInterval(() => {
-      startTimer(deadline);
-    }, 1000);
-    Ref.current = id;
-  };
+      startTimer(deadline)
+    }, 1000)
+    Ref.current = id
+  }
 
   const getDeadTime = (timeString) => {
-    let deadline = new Date();
-    if (typeof timeString === "number") {
-      deadline.setSeconds(deadline.getSeconds() + timeString);
+    let deadline = new Date()
+    if (typeof timeString === 'number') {
+      deadline.setSeconds(deadline.getSeconds() + timeString)
     } else {
-      const arrayFromTimeString = timeString.split(":");
-      const hours = parseInt(arrayFromTimeString[0]);
-      const minutes = parseInt(arrayFromTimeString[1]);
-      deadline.setMinutes(deadline.getMinutes() + minutes);
-      deadline.setHours(deadline.getHours() + hours);
+      const arrayFromTimeString = timeString.split(':')
+      const hours = parseInt(arrayFromTimeString[0])
+      const minutes = parseInt(arrayFromTimeString[1])
+      deadline.setMinutes(deadline.getMinutes() + minutes)
+      deadline.setHours(deadline.getHours() + hours)
     }
 
-    return deadline;
-  };
+    return deadline
+  }
 
   const onClickReset = () => {
-    clearTimer(getDeadTime(initialTime));
-    setIsExpired(false);
-  };
+    clearTimer(getDeadTime(initialTime))
+    setIsExpired(false)
+  }
 
   const onClickPause = () => {
-    setTimeAtPause(timer);
-    clearInterval(Ref.current);
-    setIsPaused(!isPaused);
-  };
+    setTimeAtPause(timer)
+    clearInterval(Ref.current)
+    setIsPaused(!isPaused)
+  }
 
   const onClickResume = () => {
-    clearTimer(getDeadTime(timeAtPause));
-    setIsPaused(!isPaused);
-  };
+    clearTimer(getDeadTime(timeAtPause))
+    setIsPaused(!isPaused)
+  }
 
   const renderControls = () => {
     return isExpired === true ? (
@@ -106,8 +98,8 @@ const TimerComp = ({ name, initialTime, game }) => {
         <button onClick={onClickReset}>Reset</button>
         <button onClick={onClickResume}>Start</button>
       </>
-    );
-  };
+    )
+  }
 
   const renderTimer = () => {
     return isExpired === true ? null : (
@@ -124,14 +116,14 @@ const TimerComp = ({ name, initialTime, game }) => {
           />
         </VStack>
       </Center>
-    );
-  };
+    )
+  }
 
   useEffect(() => {
-    clearTimer(getDeadTime(initialTime));
-  }, []);
+    clearTimer(getDeadTime(initialTime))
+  }, [])
 
-  return <>{renderTimer()}</>;
-};
+  return <>{renderTimer()}</>
+}
 
-export default TimerComp;
+export default TimerComp

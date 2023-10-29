@@ -1,24 +1,24 @@
-import "./global.css";
-import NewTimerModal from "./components/NewTimerModal";
-import TimerComp from "./components/Timer";
-import { Container, SimpleGrid } from "@chakra-ui/react";
-import { Timer } from "./types/app-types";
-import { useState } from "react";
+import './global.css'
+import NewTimerModal from './components/NewTimerModal'
+import TimerComp from './components/Timer'
+import { Grid } from '@chakra-ui/react'
+import { Timer } from './types/app-types'
+import { useState } from 'react'
 
 const App = () => {
-  const [timers, setTimers] = useState<Timer[]>([]);
+  const [timers, setTimers] = useState<Timer[]>([])
 
   return (
     <>
       <NewTimerModal
         onModalComplete={(newTimerObj: Timer) => {
-          setTimers([...timers, newTimerObj]);
+          setTimers([...timers, newTimerObj])
         }}
       />
-      <SimpleGrid
-        minChildWidth="27%"
+      <Grid
+        templateColumns="repeat(3, 1fr)"
+        gap={10}
         height="100%"
-        spacing={10}
         mx={10}
         py={8}
         px={4}
@@ -31,9 +31,9 @@ const App = () => {
             game={timer.game}
           />
         ))}
-      </SimpleGrid>
+      </Grid>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App
