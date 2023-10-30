@@ -20,12 +20,14 @@ const GamingPhase = ({ onClickNext }) => {
           value={game}
         >
           <option value="lorcana">Lorcana</option>
+          <option value="onepiece">One Piece</option>
           <option value="mtg">Magic The Gathering</option>
           <option value="bss">Battle Spirits Saga</option>
           <option value="fab">Flesh and Blood</option>
           <option value="pokemon">Pokémon</option>
           <option value="digimon">Digimon</option>
           <option value="shadowverse">Shadowverse</option>
+          <option value="dragonball">Dragon Ball Super</option>
         </Select>
       </FormControl>
       <Button

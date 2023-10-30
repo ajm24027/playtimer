@@ -26,3 +26,15 @@ The timer function will consume the time object, and set hours to state, minutes
   - Lastly, in the case that seconds == 0 && minutes == 0, setIsExpired(true). - hours by this point hopefully should be set to 0 already.
 
 My hope is that this particular function can handle the rendering of the time, and that when seconds and minutes and hours are 0, an elapsed state can render in place of the timer, that maybe has a button that starts a new timer based on the initial time given (a restart timer button) and or a cancel/close timer button.
+
+### Step 5
+
+Now that the timer can has been created, can intake "newTimerParams" and has been refactored to dynamically display HRs:MINs or Secs, I need to dynamically style the timers once they're created.
+
+My next step should be nailing down the design of the various timers in Figma, and then replicate them in code with ChakraUI. I need:
+
+- A particular Game's Timer, for when the timer has been created and is active.
+- A version of that timer that renders when the `isExpired` state is triggered, to handle the situation when the timer is expired.
+- Possibly a version of the timer for when it's paused. Update Progress Bar to switch off the `isIntermediate` prop to the Progress Bar Component.
+
+Once that is completed and implemented, I need to style and nail down the Timer Creation Modal, and the general styling of the site, maybe it's time to start some branding for Playtimer.
