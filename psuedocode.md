@@ -38,3 +38,9 @@ My next step should be nailing down the design of the various timers in Figma, a
 - Possibly a version of the timer for when it's paused. Update Progress Bar to switch off the `isIntermediate` prop to the Progress Bar Component.
 
 Once that is completed and implemented, I need to style and nail down the Timer Creation Modal, and the general styling of the site, maybe it's time to start some branding for Playtimer.
+
+### Note for a feedback.
+
+Timer - Active - maybe we can use a pulse effect on the timers border color [like so](https://www.florin-pop.com/blog/2019/03/css-pulse-effect/). Maybe [filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter-function/drop-shadow) can be an alternative to the dropshadow CSS if for some reason it doesn't work.
+
+Timer - Expired/Paused - and if the timer is paused or expired, we can make the border color a darker hue of it's own color, and then also use [filter to turn down the brightness of the background image](https://stackoverflow.com/questions/11535392/how-to-decrease-image-brightness-in-css).

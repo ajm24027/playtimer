@@ -101,6 +101,12 @@ const TimerComp = ({ name, initialTime, game }) => {
     )
   }
 
+  const renderExpiredTimer = () => {
+    // put the expired version of the timer in here
+  }
+
+  // New render timer will be a switch function that will watch the game variable. Use a ternary operator in each swich to decide what to render
+
   const renderTimer = () => {
     return isExpired === true ? null : (
       <Center bg="tomato" h="100%" rounded="md">
