@@ -38,37 +38,37 @@ const TimerComp = ({
     bss: {
       backgroundImage:
         "url('https://playtimer-images.s3.us-east-2.amazonaws.com/bss.png')",
-      borderColor: "#FF6666",
+      borderColor: "#00FFBF",
     },
     fab: {
       backgroundImage:
         "url('https://playtimer-images.s3.us-east-2.amazonaws.com/fab.png')",
-      borderColor: "#FF6666",
+      borderColor: "#FFFF00",
     },
     pokemon: {
       backgroundImage:
         "url('https://playtimer-images.s3.us-east-2.amazonaws.com/pokemon.png')",
-      borderColor: "#FF6666",
+      borderColor: "#00CCFF",
     },
     digimon: {
       backgroundImage:
         "url('https://playtimer-images.s3.us-east-2.amazonaws.com/digimon.png')",
-      borderColor: "#FF6666",
+      borderColor: "#0099CD",
     },
     shadowverse: {
       backgroundImage:
         "url('https://playtimer-images.s3.us-east-2.amazonaws.com/Shadowverse.png')",
-      borderColor: "#FF6666",
+      borderColor: "#2A52BE",
     },
     dragonball: {
       backgroundImage:
         "url('https://playtimer-images.s3.us-east-2.amazonaws.com/dragonball.png')",
-      borderColor: "#FF6666",
+      borderColor: "#00ED00",
     },
     onePiece: {
       backgroundImage:
         "url('https://playtimer-images.s3.us-east-2.amazonaws.com/onepiece.png')",
-      borderColor: "#FF6666",
+      borderColor: "#FF0000",
     },
   };
 
@@ -186,7 +186,7 @@ const TimerComp = ({
       </Button>
     ) : !isPaused ? (
       <>
-        <HStack spacing={8} border="1px red solid" w="100%">
+        <HStack spacing={8} w="100%">
           <Button colorScheme="orange" w="100%" onClick={onClickReset}>
             Reset
           </Button>
@@ -197,7 +197,7 @@ const TimerComp = ({
       </>
     ) : (
       <>
-        <HStack spacing={8} w="100%" border="solid red 1px">
+        <HStack spacing={8} w="100%">
           <Button colorScheme="orange" w="100%" onClick={onClickReset}>
             Reset
           </Button>
@@ -223,55 +223,54 @@ const TimerComp = ({
   // };
 
   const renderTimer = (game: string) => {
-    switch (game) {
-      case "lorcana":
-        return (
+    const gameData = gamesBackgroundsAndBorderObj[game];
+    const { backgroundImage, borderColor } = gameData;
+    return (
+      <Box
+        h="100%"
+        backgroundImage={backgroundImage}
+        backgroundSize="cover"
+        backgroundPosition="center"
+        borderRadius="16"
+        border={isExpired ? "4px solid #787878" : `4px solid ${borderColor}`}
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+          backdropFilter={isExpired ? "grayscale(100)" : "none"}
+          w="100%"
+          h="100%"
+          name="boxForGrayScale"
+        >
           <Box
-            h="100%"
-            backgroundImage="url('https://playtimer-images.s3.us-east-2.amazonaws.com/Lorcana.png')"
-            backgroundSize="cover"
-            backgroundPosition="center"
-            borderRadius="16"
-            border={isExpired ? "4px solid #787878" : "4px solid #ff9900"}
+            name="boxForCancelTimer"
+            flex="1"
+            display="flex"
+            alignItems="center"
+            justifyContent="right"
+            p={2}
           >
-            <Box
-              display="flex"
-              flexDirection="column"
-              backdropFilter={isExpired ? "grayscale(100)" : "none"}
-              w="100%"
-              h="100%"
-              name="boxForGrayScale"
+            <Button
+              onClick={terminateTimer}
+              size="md"
+              h="3rem"
+              w="3rem"
+              borderRadius="200px"
+              colorScheme="red"
             >
-              <Box
-                name="boxForCancelTimer"
-                flex="1"
-                display="flex"
-                alignItems="center"
-                justifyContent="right"
-                p={2}
-              >
-                <Button
-                  onClick={terminateTimer}
-                  size="md"
-                  h="3rem"
-                  w="3rem"
-                  borderRadius="200px"
-                  colorScheme="red"
-                >
-                  <CloseIcon />
-                </Button>
-              </Box>
-              <Center h="100%" border="1px red solid">
-                <VStack width="80%" my="auto">
-                  <p className="timer-name">{name}</p>
-                  <h2 className="timer-time">{timer}</h2>
-                  {renderControls()}
-                </VStack>
-              </Center>
-            </Box>
+              <CloseIcon />
+            </Button>
           </Box>
-        );
-    }
+          <Center h="100%">
+            <VStack width="80%" my="auto">
+              <p className="timer-name">{name}</p>
+              <h2 className="timer-time">{timer}</h2>
+              {renderControls()}
+            </VStack>
+          </Center>
+        </Box>
+      </Box>
+    );
   };
 
   useEffect(() => {

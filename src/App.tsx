@@ -1,7 +1,7 @@
 import "./global.css";
 import NewTimerModal from "./components/NewTimerModal";
 import TimerComp from "./components/Timer";
-import { Grid } from "@chakra-ui/react";
+import { Grid, Box } from "@chakra-ui/react";
 import { Timer } from "./types/app-types";
 import { useState } from "react";
 
@@ -14,7 +14,12 @@ const App = () => {
   };
 
   return (
-    <>
+    <Box
+      h="100vh"
+      w="auto"
+      bgGradient="linear(to-br, #0f0c29, #302b63, #24243e, #cc5333)"
+      backdropFilter="blur(10px)"
+    >
       <NewTimerModal
         onModalComplete={(newTimerObj: Timer) => {
           setTimers([...timers, newTimerObj]);
@@ -38,7 +43,7 @@ const App = () => {
           />
         ))}
       </Grid>
-    </>
+    </Box>
   );
 };
 
