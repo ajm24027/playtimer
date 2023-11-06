@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Center, Text, VStack, Button } from "@chakra-ui/react";
+import { Center, Text, VStack, Button, Box } from "@chakra-ui/react";
 import "../global.css";
 
 const TimerComp = ({ name, initialTime, game, terminateTimer }) => {
@@ -132,24 +132,54 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }) => {
     );
   };
 
+  // const renderTimer = (game: string) => {
+  //   return isExpired === true ? null : (
+  //     <Center bg="tomato" h="100%" rounded="md">
+  //       <VStack width="55%">
+  //         <Text fontSize="2xl">{name}</Text>
+  //         <h2 className="timer-time">{timer}</h2>
+  //         {renderControls()}
+  //         <Button onClick={terminateTimer} />
+  //       </VStack>
+  //     </Center>
+  //   );
+  // };
+
   const renderTimer = (game: string) => {
-    return isExpired === true ? null : (
-      <Center bg="tomato" h="100%" rounded="md">
-        <VStack width="55%">
-          <Text fontSize="2xl">{name}</Text>
-          <h2 className="timer-time">{timer}</h2>
-          {renderControls()}
-          <Button onClick={terminateTimer} />
-        </VStack>
-      </Center>
-    );
+    switch (game) {
+      case "lorcana":
+        if (isExpired === true) {
+          return (
+            <Box
+              h="100%"
+              backgroundImage="url('https://playtimer-images.s3.us-east-2.amazonaws.com/Lorcana.png')"
+              backgroundSize="cover"
+              backgroundPosition="center"
+            >
+              hello
+            </Box>
+          );
+        } else {
+          return (
+            <Box
+              h="100%"
+              backgroundImage="url('https://playtimer-images.s3.us-east-2.amazonaws.com/Lorcana.png')"
+              backgroundSize="cover"
+              backgroundPosition="center"
+              filter="grayscale(100%)"
+            >
+              hello
+            </Box>
+          );
+        }
+    }
   };
 
   useEffect(() => {
     clearTimer(getDeadTime(initialTime));
   }, []);
 
-  return <>{renderTimer()}</>;
+  return <>{renderTimer(game)}</>;
 };
 
 export default TimerComp;
