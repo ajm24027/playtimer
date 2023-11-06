@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-import { Center, Text, VStack, Button, Box } from "@chakra-ui/react";
+import { Center, Text, VStack, Button, Box, Flex } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 import "../global.css";
 
 const TimerComp = ({ name, initialTime, game, terminateTimer }) => {
@@ -148,30 +149,51 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }) => {
   const renderTimer = (game: string) => {
     switch (game) {
       case "lorcana":
-        if (isExpired === true) {
-          return (
+        return (
+          <Box
+            h="100%"
+            backgroundImage="url('https://playtimer-images.s3.us-east-2.amazonaws.com/Lorcana.png')"
+            backgroundSize="cover"
+            backgroundPosition="center"
+            borderRadius="16"
+          >
             <Box
+              display="flex"
+              flexDirection="column"
+              backdropFilter={isExpired ? "grayscale(100)" : "none"}
+              w="100%"
               h="100%"
-              backgroundImage="url('https://playtimer-images.s3.us-east-2.amazonaws.com/Lorcana.png')"
-              backgroundSize="cover"
-              backgroundPosition="center"
+              name="boxForGrayScale"
             >
-              hello
+              <Box
+                name="boxForCancelTimer"
+                flex="1"
+                display="flex"
+                alignItems="center"
+                justifyContent="right"
+                p={2}
+              >
+                <Button
+                  onClick={terminateTimer}
+                  size="md"
+                  h="3rem"
+                  w="3rem"
+                  borderRadius="200px"
+                  colorScheme="red"
+                >
+                  <CloseIcon />
+                </Button>
+              </Box>
+              <Center h="100%" border="1px red solid">
+                <VStack width="55%" my="auto">
+                  <p className="timer-name">{name}</p>
+                  <h2 className="timer-time">{timer}</h2>
+                  {renderControls()}
+                </VStack>
+              </Center>
             </Box>
-          );
-        } else {
-          return (
-            <Box
-              h="100%"
-              backgroundImage="url('https://playtimer-images.s3.us-east-2.amazonaws.com/Lorcana.png')"
-              backgroundSize="cover"
-              backgroundPosition="center"
-              filter="grayscale(100%)"
-            >
-              hello
-            </Box>
-          );
-        }
+          </Box>
+        );
     }
   };
 

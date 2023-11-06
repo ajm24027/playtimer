@@ -1,10 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Changa+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Changa+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Arimo:wght@700&display=swap");
 
 #root {
   height: 100vh;
 }
 
+.timer-name {
+  font-size: 3.5rem;
+  font-family: "Arimo", sans-serif;
+  font-weight: bold;
+}
+
 .timer-time {
-  font-size: 140px;
-  font-family: 'Changa One', sans-serif;
+  font-size: 9rem;
+  font-family: "Changa One", sans-serif;
+  line-height: normal;
 }
