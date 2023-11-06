@@ -20,7 +20,7 @@ const TimingPhase = ({ onClickNext }) => {
   const renderNumInputs = () => {
     return (
       <HStack>
-        <VStack>
+        {/* <VStack>
           <NumberInput
             defaultValue={0}
             value={countdown.hours}
@@ -37,10 +37,10 @@ const TimingPhase = ({ onClickNext }) => {
             </NumberInputStepper>
           </NumberInput>
           <p>Hours</p>
-        </VStack>
+        </VStack> */}
         <VStack>
           <NumberInput
-            defaultValue={1}
+            defaultValue={30}
             value={countdown.minutes}
             onChange={(e) =>
               SetCountDown({ ...countdown, minutes: parseInt(e, 10) })
@@ -56,7 +56,7 @@ const TimingPhase = ({ onClickNext }) => {
           </NumberInput>
           <p>Minutes</p>
         </VStack>
-        {/* <VStack>
+        <VStack>
           <NumberInput
             defaultValue={0}
             value={countdown.seconds}
@@ -74,7 +74,7 @@ const TimingPhase = ({ onClickNext }) => {
             </NumberInputStepper>
           </NumberInput>
           <p>Seconds</p>
-        </VStack> */}
+        </VStack>
       </HStack>
     );
   };
@@ -90,12 +90,9 @@ const TimingPhase = ({ onClickNext }) => {
             return (
               // (hours > 9 ? hours : "0" + hours) +
               // ":" +
-              // (minutes > 9 ? minutes : "0" + minutes) +
-              // ":" +
-              // (seconds > 9 ? seconds : "0" + seconds)
-              (hours > 9 ? hours : "0" + hours) +
+              (minutes > 9 ? minutes : "0" + minutes) +
               ":" +
-              (minutes > 9 ? minutes : "0" + minutes)
+              (seconds > 9 ? seconds : "0" + seconds)
             );
           };
           // console.log(formattedCountdown())
