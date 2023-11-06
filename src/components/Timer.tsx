@@ -1,14 +1,76 @@
 import { useEffect, useState, useRef } from "react";
-import { Center, Text, VStack, Button, Box, Flex } from "@chakra-ui/react";
+import {
+  Center,
+  Text,
+  VStack,
+  HStack,
+  Button,
+  Box,
+  Flex,
+} from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
+import { IncomingTimerProps } from "../types/app-types";
 import "../global.css";
 
-const TimerComp = ({ name, initialTime, game, terminateTimer }) => {
+const TimerComp = ({
+  name,
+  initialTime,
+  game,
+  terminateTimer,
+}: IncomingTimerProps) => {
   const Ref = useRef(null);
   const [timer, setTimer] = useState("00:00");
   const [isPaused, setIsPaused] = useState(false);
   const [timeAtPause, setTimeAtPause] = useState("");
   const [isExpired, setIsExpired] = useState(false);
+
+  const gamesBackgroundsAndBorderObj = {
+    lorcana: {
+      backgroundImage:
+        "url('https://playtimer-images.s3.us-east-2.amazonaws.com/Lorcana.png')",
+      borderColor: "#ff9900",
+    },
+    mtg: {
+      backgroundImage:
+        "url('https://playtimer-images.s3.us-east-2.amazonaws.com/mtg.png')",
+      borderColor: "#FF6666",
+    },
+    bss: {
+      backgroundImage:
+        "url('https://playtimer-images.s3.us-east-2.amazonaws.com/bss.png')",
+      borderColor: "#FF6666",
+    },
+    fab: {
+      backgroundImage:
+        "url('https://playtimer-images.s3.us-east-2.amazonaws.com/fab.png')",
+      borderColor: "#FF6666",
+    },
+    pokemon: {
+      backgroundImage:
+        "url('https://playtimer-images.s3.us-east-2.amazonaws.com/pokemon.png')",
+      borderColor: "#FF6666",
+    },
+    digimon: {
+      backgroundImage:
+        "url('https://playtimer-images.s3.us-east-2.amazonaws.com/digimon.png')",
+      borderColor: "#FF6666",
+    },
+    shadowverse: {
+      backgroundImage:
+        "url('https://playtimer-images.s3.us-east-2.amazonaws.com/Shadowverse.png')",
+      borderColor: "#FF6666",
+    },
+    dragonball: {
+      backgroundImage:
+        "url('https://playtimer-images.s3.us-east-2.amazonaws.com/dragonball.png')",
+      borderColor: "#FF6666",
+    },
+    onePiece: {
+      backgroundImage:
+        "url('https://playtimer-images.s3.us-east-2.amazonaws.com/onepiece.png')",
+      borderColor: "#FF6666",
+    },
+  };
 
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date());
@@ -43,7 +105,7 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }) => {
 
     if (total <= 0) {
       clearInterval(Ref.current);
-      setTimer("X");
+      setTimer("00");
       setIsExpired(true);
     } else if (total < 60000) {
       setTimer(seconds > 9 ? seconds : "0" + seconds);
@@ -118,17 +180,31 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }) => {
   };
 
   const renderControls = () => {
-    return isExpired === true ? (
-      <button onClick={onClickReset}>Reset</button>
+    return isExpired ? (
+      <Button colorScheme="orange" w="100%" onClick={onClickReset}>
+        Reset
+      </Button>
     ) : !isPaused ? (
       <>
-        <button onClick={onClickReset}>Reset</button>
-        <button onClick={onClickPause}>Pause</button>
+        <HStack spacing={8} border="1px red solid" w="100%">
+          <Button colorScheme="orange" w="100%" onClick={onClickReset}>
+            Reset
+          </Button>
+          <Button w="100%" colorScheme="yellow" onClick={onClickPause}>
+            Pause
+          </Button>
+        </HStack>
       </>
     ) : (
       <>
-        <button onClick={onClickReset}>Reset</button>
-        <button onClick={onClickResume}>Start</button>
+        <HStack spacing={8} w="100%" border="solid red 1px">
+          <Button colorScheme="orange" w="100%" onClick={onClickReset}>
+            Reset
+          </Button>
+          <Button colorScheme="green" w="100%" onClick={onClickResume}>
+            Start
+          </Button>
+        </HStack>
       </>
     );
   };
@@ -156,6 +232,7 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }) => {
             backgroundSize="cover"
             backgroundPosition="center"
             borderRadius="16"
+            border={isExpired ? "4px solid #787878" : "4px solid #ff9900"}
           >
             <Box
               display="flex"
@@ -185,7 +262,7 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }) => {
                 </Button>
               </Box>
               <Center h="100%" border="1px red solid">
-                <VStack width="55%" my="auto">
+                <VStack width="80%" my="auto">
                   <p className="timer-name">{name}</p>
                   <h2 className="timer-time">{timer}</h2>
                   {renderControls()}

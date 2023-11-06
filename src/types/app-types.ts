@@ -3,3 +3,10 @@ export interface Timer {
   game: string;
   initialTime: string;
 }
+
+export interface IncomingTimerProps {
+  name: string;
+  initialTime: string;
+  game: string;
+  terminateTimer: () => void;
+}
