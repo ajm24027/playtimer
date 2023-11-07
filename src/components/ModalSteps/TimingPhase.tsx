@@ -106,7 +106,7 @@ const TimingPhase = ({ onClickNext }) => {
           type="submit"
           onClick={() => {
             const formattedCountdown = () => {
-              const { hours, minutes, seconds } = countdown
+              const { minutes, seconds } = countdown
               return (
                 // (hours > 9 ? hours : "0" + hours) +
                 // ":" +

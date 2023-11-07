@@ -5,8 +5,14 @@ import { Grid, Box, Center, Text, Link, Image, VStack } from '@chakra-ui/react'
 import { Timer } from './types/app-types'
 import { useState } from 'react'
 
+interface TimerObj {
+  title: string
+  initialTime: string
+  game: string
+}
+
 const App = () => {
-  const [timers, setTimers] = useState<Timer[]>([])
+  const [timers, setTimers] = useState<TimerObj[]>([])
 
   const removeTimerFromState = (timerIndex: number) => {
     const newTimers = timers.filter((_timer, index) => index !== timerIndex)
@@ -16,7 +22,7 @@ const App = () => {
   return (
     <Box h="100vh" w="auto" bgColor="#0A0442">
       <NewTimerModal
-        onModalComplete={(newTimerObj: Timer) => {
+        onModalComplete={(newTimerObj: TimerObj) => {
           setTimers([...timers, newTimerObj])
         }}
       />
@@ -43,7 +49,7 @@ const App = () => {
       ) : (
         <Center h="96%">
           <VStack>
-            <Image src="public/playtimer_logo.png"></Image>
+            <Image src="/playtimer_logo.png" />
             <Text fontSize="5xl" color="whiteAlpha.700">
               Press the "+" icon below to get started.
             </Text>

@@ -1,27 +1,19 @@
 import { useEffect, useState, useRef } from 'react'
-import {
-  Center,
-  Text,
-  VStack,
-  HStack,
-  Button,
-  Box,
-  Flex
-} from '@chakra-ui/react'
+import { Center, VStack, HStack, Button, Box } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 import { IncomingTimerProps } from '../types/app-types'
 import '../global.css'
 
-const TimerComp = ({
-  name,
-  initialTime,
-  game,
-  terminateTimer
-}: IncomingTimerProps) => {
-  const Ref = useRef(null)
-  const [timer, setTimer] = useState('00:00')
+interface TimerProps extends IncomingTimerProps {
+  game: string
+  terminateTimer: () => void
+}
+
+const TimerComp = ({ name, initialTime, game, terminateTimer }: TimerProps) => {
+  const Ref = useRef<number | null>(null)
+  const [timer, setTimer] = useState<string>('00:00')
   const [isPaused, setIsPaused] = useState(false)
-  const [timeAtPause, setTimeAtPause] = useState('')
+  const [timeAtPause, setTimeAtPause] = useState<string>('')
   const [isExpired, setIsExpired] = useState(false)
 
   const gamesBackgroundsAndBorderObj = {
@@ -81,53 +73,36 @@ const TimerComp = ({
     }
   }
 
-  const getTimeRemaining = (e) => {
-    const total = Date.parse(e) - Date.parse(new Date())
+  const getTimeRemaining = (e: Date) => {
+    const total = Date.parse(e.toString()) - Date.parse(new Date().toString())
     const seconds = Math.floor((total / 1000) % 60)
     const minutes = Math.floor((total / 1000 / 60) % 60)
-    // const hours = Math.floor((total / 1000 / 60 / 60) % 24)
     return {
       total,
-      // hours,
       minutes,
       seconds
     }
   }
 
-  const startTimer = (e) => {
-    let { total, minutes, seconds } = getTimeRemaining(e)
-    // let { total, hours, minutes, seconds } = getTimeRemaining(e)
-
-    // if (total <= 0) {
-    //   clearInterval(Ref.current)
-    //   setTimer('X')
-    //   setIsExpired(true)
-    // } else if (total < 60000) {
-    //   setTimer(seconds > 9 ? seconds : '0' + seconds)
-    // } else {
-    //   setTimer(
-    //     (hours > 9 ? hours : '0' + hours) +
-    //       ':' +
-    //       (minutes > 9 ? minutes : '0' + minutes)
-    //   )
-    // }
+  const startTimer = (e: Date) => {
+    const { total, minutes, seconds } = getTimeRemaining(e)
 
     if (total <= 0) {
-      clearInterval(Ref.current)
+      if (Ref.current) clearInterval(Ref.current)
       setTimer('00')
       setIsExpired(true)
     } else if (total < 60000) {
-      setTimer(seconds > 9 ? seconds : '0' + seconds)
+      setTimer(seconds > 9 ? seconds.toString() : '0' + seconds)
     } else {
       setTimer(
-        (minutes > 9 ? minutes : '0' + minutes) +
+        (minutes > 9 ? minutes.toString() : '0' + minutes) +
           ':' +
-          (seconds > 9 ? seconds : '0' + seconds)
+          (seconds > 9 ? seconds.toString() : '0' + seconds)
       )
     }
   }
 
-  const clearTimer = (deadline) => {
+  const clearTimer = (deadline: Date) => {
     if (!timeAtPause) {
       setTimer(initialTime)
     } else {
@@ -141,23 +116,9 @@ const TimerComp = ({
     Ref.current = id
   }
 
-  // const getDeadTime = (timeString) => {
-  //   let deadline = new Date()
-  //   if (typeof timeString === 'number') {
-  //     deadline.setSeconds(deadline.getSeconds() + timeString)
-  //   } else {
-  //     const arrayFromTimeString = timeString.split(':')
-  //     const hours = parseInt(arrayFromTimeString[0])
-  //     const minutes = parseInt(arrayFromTimeString[1])
-  //     deadline.setMinutes(deadline.getMinutes() + minutes)
-  //     deadline.setHours(deadline.getHours() + hours)
-  //   }
-
-  //   return deadline
-  // }
-
   const getDeadTime = (time: number | string) => {
-    let deadline = new Date()
+    const deadline = new Date()
+
     if (typeof time === 'number') {
       deadline.setSeconds(deadline.getSeconds() + time)
     } else {
@@ -166,7 +127,6 @@ const TimerComp = ({
       const seconds = parseInt(arrayFromTime[1])
       deadline.setMinutes(deadline.getMinutes() + minutes)
       deadline.setSeconds(deadline.getSeconds() + seconds)
-      // deadline.setHours(deadline.getHours() + hours)
     }
 
     return deadline
@@ -179,7 +139,7 @@ const TimerComp = ({
 
   const onClickPause = () => {
     setTimeAtPause(timer)
-    clearInterval(Ref.current)
+    if (Ref.current) clearInterval(Ref.current)
     setIsPaused(!isPaused)
   }
 
@@ -218,46 +178,31 @@ const TimerComp = ({
     )
   }
 
-  // const renderTimer = (game: string) => {
-  //   return isExpired === true ? null : (
-  //     <Center bg="tomato" h="100%" rounded="md">
-  //       <VStack width="55%">
-  //         <Text fontSize="2xl">{name}</Text>
-  //         <h2 className="timer-time">{timer}</h2>
-  //         {renderControls()}
-  //         <Button onClick={terminateTimer} />
-  //       </VStack>
-  //     </Center>
-  //   );
-  // };
-
-  const renderTimer = (game: string) => {
+  const renderTimer = (game: keyof typeof gamesBackgroundsAndBorderObj) => {
     const gameData = gamesBackgroundsAndBorderObj[game]
     const { backgroundImage, borderColor, boxShadow } = gameData
     return (
       <Box
         h="100%"
-        backgroundImage={backgroundImage}
+        backgroundImage={`${backgroundImage}`}
         backgroundSize="cover"
         backgroundPosition="center"
-        borderRadius="16"
+        borderRadius="16px"
         boxShadow={isExpired ? 'none' : `6px 6px 32px 11px ${boxShadow}`}
         border={isExpired ? '4px solid #787878' : `4px solid ${borderColor}`}
       >
         <Box
           display="flex"
           flexDirection="column"
-          backdropFilter={isExpired ? 'grayscale(100)' : 'none'}
+          backdropFilter={isExpired ? 'grayscale(100%)' : 'none'}
           w="100%"
           h="100%"
-          name="boxForGrayScale"
         >
           <Box
-            name="boxForCancelTimer"
             flex="1"
             display="flex"
             alignItems="center"
-            justifyContent="right"
+            justifyContent="flex-end"
             p={2}
           >
             <Button
@@ -265,7 +210,7 @@ const TimerComp = ({
               size="md"
               h="3rem"
               w="3rem"
-              borderRadius="200px"
+              borderRadius="50%"
               colorScheme="red"
             >
               <CloseIcon />
@@ -286,7 +231,7 @@ const TimerComp = ({
   useEffect(() => {
     clearTimer(getDeadTime(initialTime))
   }, [])
-
+  // @ts-ignore
   return <>{renderTimer(game)}</>
 }
 
