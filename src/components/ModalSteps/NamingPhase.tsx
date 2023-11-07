@@ -14,18 +14,25 @@ const NamingPhase = ({ onClickNext }) => {
   // console.log('This is name currently: ', name)
   return (
     <Container>
-      <FormControl>
-        <FormLabel>Name Your Timer</FormLabel>
+      <FormControl isRequired={true}>
+        <FormLabel color="white">What is the name of your event?</FormLabel>
         <Input
+          color="white"
+          focusBorderColor="green.500"
           type="Timer Name"
           value={name}
+          placeholder="MTG Commander League"
+          isRequired={true}
           onChange={(e) => setName(e.target.value)}
         />
       </FormControl>
       <Button
+        colorScheme="green"
         type="submit"
         rightIcon={<ArrowForwardIcon />}
         onClick={() => onClickNext(name)}
+        mt={4}
+        isDisabled={name === '' ? true : false}
       >
         Select a Game
       </Button>

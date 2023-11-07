@@ -3,18 +3,21 @@ import {
   FormControl,
   FormLabel,
   Button,
-  Select
+  Select,
+  HStack
 } from '@chakra-ui/react'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
 
-const GamingPhase = ({ onClickNext }) => {
+const GamingPhase = ({ onClickNext, onClickBack }) => {
   const [game, setGame] = useState('')
   return (
     <Container>
-      <FormControl>
-        <FormLabel>Choose a game from the list</FormLabel>
+      <FormControl isRequired={true}>
+        <FormLabel color="white">Choose a game from the list</FormLabel>
         <Select
+          color="white"
+          focusBorderColor="green.500"
           onChange={(e) => setGame(e.target.value)}
           placeholder="Choose a game here"
           value={game}
@@ -30,13 +33,19 @@ const GamingPhase = ({ onClickNext }) => {
           <option value="dragonball">Dragon Ball Super</option>
         </Select>
       </FormControl>
-      <Button
-        type="submit"
-        rightIcon={<ArrowForwardIcon />}
-        onClick={() => onClickNext(game)}
-      >
-        Set Timer Length
-      </Button>
+      <HStack mt={4} justify="space-between">
+        <Button onClick={onClickBack}>back</Button>
+
+        <Button
+          colorScheme="green"
+          type="submit"
+          rightIcon={<ArrowForwardIcon />}
+          isDisabled={game === '' ? true : false}
+          onClick={() => onClickNext(game)}
+        >
+          Set Timer Length
+        </Button>
+      </HStack>
     </Container>
   )
 }

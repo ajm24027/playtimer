@@ -39,6 +39,15 @@ const NewTimerModal = ({ onModalComplete }) => {
     timeAtPause: ''
   }
 
+  const goBackOnePhase = () => {
+    if (phase > 0) {
+      console.log('goBackOnePhase firing')
+      setPhase((prevPhase) => prevPhase - 1)
+    } else {
+      return null
+    }
+  }
+
   const renderModalByPhase = () => {
     switch (phase) {
       case Phase.SetName:
@@ -53,6 +62,7 @@ const NewTimerModal = ({ onModalComplete }) => {
       case Phase.SetGameType:
         return (
           <GamingPhase
+            onClickBack={goBackOnePhase}
             onClickNext={(game: string) => {
               setNewTimerParams({ ...newTimerParams, game })
               setPhase(Phase.SetCountdown)
@@ -104,11 +114,16 @@ const NewTimerModal = ({ onModalComplete }) => {
         <AddIcon />
       </Button>
 
-      <Modal isOpen={isOpen} onClose={resetModal}>
-        <ModalOverlay bg="none" backdropFilter="auto" backdropBlur="2px" />
-        <ModalContent>
-          <ModalHeader>{phase}</ModalHeader>
-          <ModalCloseButton />
+      <Modal
+        colorScheme="purple"
+        isOpen={isOpen}
+        onClose={resetModal}
+        isCentered
+      >
+        <ModalOverlay bg="none" backdropFilter="auto" backdropBlur="18px" />
+        <ModalContent bgColor="purple.800">
+          <ModalHeader color="white">Create your Timer!</ModalHeader>
+          <ModalCloseButton color="white" />
           <ModalBody>{renderModalByPhase()}</ModalBody>
 
           <ModalFooter></ModalFooter>
