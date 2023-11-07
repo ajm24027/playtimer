@@ -12,6 +12,15 @@ export interface IncomingTimerProps {
   terminateTimer: () => void;
 }
 
+export interface PhaseNavProps {
+  onClickNext: (game: string) => void
+  onClickBack?: () => void
+}
+
+export interface NewTimerModalProps {
+  onModalComplete: (timerParams: Timer) => void;
+}
+
 export interface GamesBackgroundsAndBorder {
   [key: string]: {
     backgroundImage: string

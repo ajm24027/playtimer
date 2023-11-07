@@ -2,7 +2,6 @@ import './global.css'
 import NewTimerModal from './components/NewTimerModal'
 import TimerComp from './components/Timer'
 import { Grid, Box, Center, Text, Link, Image, VStack } from '@chakra-ui/react'
-import { Timer } from './types/app-types'
 import { useState } from 'react'
 
 interface TimerObj {

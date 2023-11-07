@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import { useState, useEffect } from 'react'
-import { Timer } from '../types/app-types'
+import { Timer, NewTimerModalProps } from '../types/app-types'
 import NamingPhase from './ModalSteps/NamingPhase'
 import GamingPhase from './ModalSteps/GamingPhase'
 import TimingPhase from './ModalSteps/TimingPhase'
@@ -22,7 +22,7 @@ enum Phase {
   SetCountdown
 }
 
-const NewTimerModal = ({ onModalComplete }) => {
+const NewTimerModal: React.FC<NewTimerModalProps> = ({ onModalComplete }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [phase, setPhase] = useState<Phase>(Phase.SetName)
   const [newTimerParams, setNewTimerParams] = useState<Timer>({

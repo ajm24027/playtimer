@@ -6,10 +6,14 @@ import {
   Select,
   HStack
 } from '@chakra-ui/react'
+import { GamingPhaseProps } from '../../types/app-types'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
 
-const GamingPhase = ({ onClickNext, onClickBack }) => {
+const GamingPhase: React.FC<GamingPhaseProps> = ({
+  onClickNext,
+  onClickBack
+}) => {
   const [game, setGame] = useState('')
   return (
     <Container>

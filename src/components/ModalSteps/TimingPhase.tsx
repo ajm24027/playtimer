@@ -11,9 +11,10 @@ import {
   FormControl,
   FormLabel
 } from '@chakra-ui/react'
+import { PhaseNavProps } from '../../types/app-types'
 import { useState } from 'react'
 
-const TimingPhase = ({ onClickNext }) => {
+const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
   const [countdown, SetCountDown] = useState({
     hours: 0,
     minutes: 0,

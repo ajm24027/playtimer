@@ -6,9 +6,10 @@ import {
   Input
 } from '@chakra-ui/react'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
+import { PhaseNavProps } from '../../types/app-types'
 import { useState } from 'react'
 
-const NamingPhase = ({ onClickNext }) => {
+const NamingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
   const [name, setName] = useState('')
 
   // console.log('This is name currently: ', name)
