@@ -9,7 +9,7 @@ const App = () => {
   const [timers, setTimers] = useState<Timer[]>([])
 
   const removeTimerFromState = (timerIndex: number) => {
-    const newTimers = timers.filter((timer, index) => index !== timerIndex)
+    const newTimers = timers.filter((_timer, index) => index !== timerIndex)
     setTimers(newTimers)
   }
 
