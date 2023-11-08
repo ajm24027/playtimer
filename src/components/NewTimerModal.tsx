@@ -121,7 +121,11 @@ const NewTimerModal: React.FC<NewTimerModalProps> = ({ onModalComplete }) => {
         isCentered
       >
         <ModalOverlay bg="none" backdropFilter="auto" backdropBlur="18px" />
-        <ModalContent bgColor="purple.800">
+        <ModalContent
+          bgColor="purple.800"
+          boxShadow="2px 2px 20px 10px rgba(0, 0, 0, 0.4)"
+          border="1px solid white"
+        >
           <ModalHeader color="white">Create your Timer!</ModalHeader>
           <ModalCloseButton color="white" />
           <ModalBody>{renderModalByPhase()}</ModalBody>

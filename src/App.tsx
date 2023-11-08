@@ -19,7 +19,11 @@ const App = () => {
   }
 
   return (
-    <Box h="100vh" w="auto" bgColor="#0A0442">
+    <Box
+      h="100vh"
+      w="auto"
+      bgGradient="linear(to-br, #0A0442, #090247, #060230)"
+    >
       <NewTimerModal
         onModalComplete={(newTimerObj: TimerObj) => {
           setTimers([...timers, newTimerObj])
