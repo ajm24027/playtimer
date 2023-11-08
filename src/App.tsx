@@ -1,28 +1,28 @@
-import "./global.css";
-import NewTimerModal from "./components/NewTimerModal";
-import TimerComp from "./components/Timer";
-import { Grid, Box, Center, Text, Link, Image, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import './global.css'
+import NewTimerModal from './components/NewTimerModal'
+import TimerComp from './components/Timer'
+import { Grid, Box, Center, Text, Link, Image, VStack } from '@chakra-ui/react'
+import { useState } from 'react'
 
 interface TimerObj {
-  title: string;
-  initialTime: string;
-  game: string;
+  title: string
+  initialTime: string
+  game: string
 }
 
 const App = () => {
-  const [timers, setTimers] = useState<TimerObj[]>([]);
+  const [timers, setTimers] = useState<TimerObj[]>([])
 
   const removeTimerFromState = (timerIndex: number) => {
-    const newTimers = timers.filter((_timer, index) => index !== timerIndex);
-    setTimers(newTimers);
-  };
+    const newTimers = timers.filter((_timer, index) => index !== timerIndex)
+    setTimers(newTimers)
+  }
 
   return (
     <Box h="100vh" w="auto" bgColor="#0A0442">
       <NewTimerModal
         onModalComplete={(newTimerObj: TimerObj) => {
-          setTimers([...timers, newTimerObj]);
+          setTimers([...timers, newTimerObj])
         }}
       />
 
@@ -48,7 +48,7 @@ const App = () => {
       ) : (
         <Center h="95%">
           <VStack>
-            <Image src="/playtimer_logo.png" />
+            <Image h="200px" src="/playtimer_logo.png" />
             <Text fontSize="4xl" color="whiteAlpha.700">
               Press the "+" icon below to get started.
             </Text>
@@ -58,14 +58,14 @@ const App = () => {
 
       <Center mx={20}>
         <Text as="b" color="rgba(196,241,249, 0.4)" fontSize="xs" mt={2}>
-          playtimer created by{" "}
+          playtimer created by{' '}
           <Link href="https://anthonyjmedina.com/" textDecoration="underline">
             Anthony Medina
           </Link>
         </Text>
       </Center>
     </Box>
-  );
-};
+  )
+}
 
-export default App;
+export default App
