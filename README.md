@@ -26,31 +26,50 @@ I started sketching up a solution that accounted for mobile first (I imagined th
 
 #### Mechanics
 
-How I imagine this working currently is:
+How the app works:
 
-1. When a user goes to the website, a useEffect would fire off and set just a single one of these empty timer components set to the "intialize" stage to state.
-2. When a user would click on "add timer" the timer content changes to the first part of the form, and then when they click next, the next stage of the timer component is triggered prompting a new part of the form to show up.
-3. Once all of the information has been collected, and the user clicks "Create" the timer initializes a function that's coded inside of it, setting an actual digital timer to state, along with a progress bar or circle, and update the state on the main component of the app, added a new empty timer component to the screen.
-4. When a timer elapses, an alert shows up on the screen notifying the user that that particular timer is over, and a few choices would show up on the timer, to either close or delete the timer, or restart the timer. I imagine some of these tournaments will have multiple rounds after all.
+1. When the user goes to the website, they are prompted to create a new timer.
+2. The user goes through a series of modal windows inputting information about the event that the timer is for. Things like the "Name of the Event", "What Game is being played at the event", and "How long their timer might be". All the while, everytime they step forward in the modal, the app is setting to state the new piece of information that the user gives.
+3. When the user gets to the end of the modal interaction, the unique timer object is built out, and set to state. There the app renders any timer object with the use of the Timer Component.
+4. The timer component works in 3 parts:
+   - First, within the timer component, the timer object is deconstructed, and the parts of the object are set to state to display the initial values on the timer, the name of the event, the initial time, etc.
+   - Then a series of call back functions are put together to create a reference date object, and a countdown of miliseconds from that date object + the time that the user entered for how long the timer should be. Every second the the interval is triggered, rendering the state at the time of the interval, because the interval is once every second, when it renders to us the timer has counted down.
+   - Finally, the return statement returns a timer that uses an object lookup to decide what styling it should have based on the game that the user is the timer for. JSX and conditionals are used to toggle the look of the timer depending on whether or not the timer is expired or not.
+5. The user decided whether or not they want to recycle the timer for the round or not. If they want to initiate it for another round, they click reset, and a function in the timer component reruns the code using the initial time passed to the object. If they want to delete it and start again, a "X" icon triggers a function to create an array using the filter method that doesn't include the id of the rendered timer component that triggered the onClick.
 
 ### Hierarchy
 
-Below is the Component Hierarchy Diagram. My goal in development is program a timer component that has a number of prompts, stages, and functions (to control, edit, and cancel the timers) built into it. With this, two main components should exist, or top level components exist:
+The Hierarchy has changed a little bit from the original diagram that I created (see below). I was more focused on the Chackra UI components, but I realized later in development that there's a lot of documentation online about how these components work, and I should have just focused on the big components like the ones I talk about below:
 
-- An alert, that would have the name of the timer object passed to it, that shows up on screen when that timers duration has elapsed.
-- And then the actual timer itself. This will have various Chakra UI components in it that will be used to form the various prompts that will show up when a user clicks on "New Timer".
+- There is the main app, that holds the Timer Objects.
+  - There is a modal that is a child of this component that the user uses to create the Timer Object.
+    - There are further child components to this modal that dictate the stage that the user is in in Timer Creation, these stages have functions and ChakraUI elements that help dictate and format what and how the information should be passed to the Timer Object.
+  - Then there is the actual Timer Component that contains the countdown logic, and the actual return of the timer.
 
 ![Playtimer's Component Hierarchy Diagram](./public/playtimer-chd.png)
 
 ### Links
 
-- Live Site URL:
+- [Live Site](https://playtimer.anthonyjmedina.com/)
+- [GitHub](https://github.com/ajm24027/playtimer)
 
 ## My process
 
-I've had some time to think through and update the process. But the major changes so far, is that the timers will be side by side in the grid rather than 3 long strips, and they won't automatically render another empty timer, rather a button on the page will allow users to "add a timer" which renders a modal with inputs for users. I've had time to come up with a lo-fi mockup that has helped me to think through the logic a little bit better.
+I actually ended up recording my process in the form of blog posts while in the middle of making this app on my freetime. I'll leave the links below.
+
+[Part 1](https://anthonyjmedina.com/posts/the-making-of-playtimer-1.md/) - I set up the initial timer logic and attempt to figure out why the way that my iniitial conditionals didn't work in React. Additionally I learn a lesson in Intervals and Interval IDs
+
+[Part 2](https://anthonyjmedina.com/posts/the-making-of-playtimer-2.md/) - I figure out how to pass up props and information from child components up to the parents, this is how I use the Modal Children to create the Timer Object step by step.
+
+[Part 3](https://anthonyjmedina.com/posts/the-making-of-playtimer-3.md/) - I pivot the project to move past some obstacles that I was facing with ChakraUI Progress Bar. This is where the idea of making Timer Variants, and prototyping for the context of the Apps setting came into play.
+
+[Part 4](https://anthonyjmedina.com/posts/the-making-of-playtimer-4.md/) - I realize the fulll power of JSX and being able to create incredibly concise code that works just the same using conditionals inside of return statements.
 
 ![Playtimer's Component Hierarchy Diagram](./public/playtimer-lofi.png)
+![Playtimer's Component Hierarchy Diagram](https://anthonyjmedina-portfolio-images.s3.us-east-2.amazonaws.com/the_making_of_playtimer/Timer.png)
+![Playtimer's Component Hierarchy Diagram](https://anthonyjmedina-portfolio-images.s3.us-east-2.amazonaws.com/the_making_of_playtimer/playtimer_final.png)
+![Playtimer's Component Hierarchy Diagram](https://anthonyjmedina-portfolio-images.s3.us-east-2.amazonaws.com/the_making_of_playtimer/game-user-selection.png)
+![Playtimer's Component Hierarchy Diagram](https://playtimer-images.s3.us-east-2.amazonaws.com/finished_product.png)
 
 ### Built with
 
@@ -59,10 +78,8 @@ I've had some time to think through and update the process. But the major change
 - Chakra UI
 - Bun
 
-### What I learned
+## Check Me Out
 
-## Author
-
-- Website - [anthonyjmedina.com](https://www.your-site.com)
+- Website - [anthonyjmedina.com](https://anthonyjmedina.com)
 - Frontend Mentor - [@ajm24027](https://www.frontendmentor.io/profile/ajm24027)
 - GitHub - [@ajm24027](https://github.com/ajm24027)
