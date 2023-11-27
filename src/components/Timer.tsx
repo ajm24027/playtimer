@@ -5,6 +5,8 @@ import { IncomingTimerProps } from '../types/app-types'
 import '../global.css'
 
 interface TimerProps extends IncomingTimerProps {
+  name: string
+  initialTime: string
   game: string
   terminateTimer: () => void
 }
@@ -135,6 +137,9 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }: TimerProps) => {
   const onClickReset = () => {
     clearTimer(getDeadTime(initialTime))
     setIsExpired(false)
+    setIsPaused(false)
+    setTimeAtPause('')
+    setTimer(initialTime)
   }
 
   const onClickPause = () => {
@@ -188,7 +193,9 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }: TimerProps) => {
         backgroundSize="cover"
         backgroundPosition="center"
         borderRadius="16px"
-        boxShadow={isExpired ? 'none' : `6px 6px 32px 11px ${boxShadow}`}
+        boxShadow={
+          isExpired || isPaused ? 'none' : `6px 6px 32px 11px ${boxShadow}`
+        }
         border={isExpired ? '4px solid #787878' : `4px solid ${borderColor}`}
       >
         <Box
