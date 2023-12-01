@@ -5,15 +5,10 @@ import { IncomingTimerProps } from "../types/app-types";
 import "../global.css";
 
 interface TimerProps extends IncomingTimerProps {
-<<<<<<< HEAD
+  name: string;
+  initialTime: string;
   game: string;
   terminateTimer: () => void;
-=======
-  name: string
-  initialTime: string
-  game: string
-  terminateTimer: () => void
->>>>>>> dad92bdd5d433df4c5c683164919c7d742af7a4f
 }
 
 const TimerComp = ({ name, initialTime, game, terminateTimer }: TimerProps) => {
@@ -22,6 +17,8 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }: TimerProps) => {
   const [isPaused, setIsPaused] = useState(false);
   const [timeAtPause, setTimeAtPause] = useState<string>("");
   const [isExpired, setIsExpired] = useState(false);
+
+  // for the commit change
 
   const gamesBackgroundsAndBorderObj = {
     lorcana: {
@@ -137,18 +134,12 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }: TimerProps) => {
   };
 
   const onClickReset = () => {
-<<<<<<< HEAD
     clearTimer(getDeadTime(initialTime));
     setIsExpired(false);
+    setIsPaused(false);
+    setTimeAtPause("");
+    setTimer(initialTime);
   };
-=======
-    clearTimer(getDeadTime(initialTime))
-    setIsExpired(false)
-    setIsPaused(false)
-    setTimeAtPause('')
-    setTimer(initialTime)
-  }
->>>>>>> dad92bdd5d433df4c5c683164919c7d742af7a4f
 
   const onClickPause = () => {
     setTimeAtPause(timer);
@@ -201,15 +192,10 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }: TimerProps) => {
         backgroundSize="cover"
         backgroundPosition="center"
         borderRadius="16px"
-<<<<<<< HEAD
-        boxShadow={isExpired ? "none" : `6px 6px 32px 11px ${boxShadow}`}
-        border={isExpired ? "4px solid #787878" : `4px solid ${borderColor}`}
-=======
         boxShadow={
-          isExpired || isPaused ? 'none' : `6px 6px 32px 11px ${boxShadow}`
+          isExpired || isPaused ? "none" : `6px 6px 32px 11px ${boxShadow}`
         }
-        border={isExpired ? '4px solid #787878' : `4px solid ${borderColor}`}
->>>>>>> dad92bdd5d433df4c5c683164919c7d742af7a4f
+        border={isExpired ? "4px solid #787878" : `4px solid ${borderColor}`}
       >
         <Box
           display="flex"
