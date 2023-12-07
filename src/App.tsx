@@ -1,7 +1,16 @@
 import './global.css'
 import NewTimerModal from './components/NewTimerModal'
 import TimerComp from './components/Timer'
-import { Grid, Box, Center, Text, Link, Image, VStack } from '@chakra-ui/react'
+import {
+  Grid,
+  Box,
+  Center,
+  Text,
+  Link,
+  Image,
+  VStack,
+  SimpleGrid
+} from '@chakra-ui/react'
 import { useState } from 'react'
 
 interface TimerObj {
@@ -24,15 +33,19 @@ const App = () => {
       w="auto"
       bgGradient="linear(to-br, #0A0442, #090247, #060230)"
     >
-      <NewTimerModal
-        onModalComplete={(newTimerObj: TimerObj) => {
-          setTimers([...timers, newTimerObj])
-        }}
-      />
+      {timers.length < 4 ? (
+        <NewTimerModal
+          onModalComplete={(newTimerObj: TimerObj) => {
+            setTimers([...timers, newTimerObj])
+          }}
+        />
+      ) : (
+        <></>
+      )}
 
       {timers.length > 0 ? (
-        <Grid
-          templateColumns="repeat(3, 1fr)"
+        <SimpleGrid
+          minChildWidth="300px"
           gap={10}
           height="96%"
           mx={10}
@@ -48,7 +61,7 @@ const App = () => {
               terminateTimer={() => removeTimerFromState(i)}
             />
           ))}
-        </Grid>
+        </SimpleGrid>
       ) : (
         <Center h="95%">
           <VStack>

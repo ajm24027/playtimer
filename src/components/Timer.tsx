@@ -224,7 +224,7 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }: TimerProps) => {
             </Button>
           </Box>
           <Center h="100%">
-            <VStack width="80%" my="auto">
+            <VStack minWidth="30%" maxWidth="70%" my="auto">
               <p className="timer-name">{name}</p>
               <h2 className="timer-time">{timer}</h2>
               {renderControls()}
