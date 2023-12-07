@@ -2,7 +2,6 @@ import './global.css'
 import NewTimerModal from './components/NewTimerModal'
 import TimerComp from './components/Timer'
 import {
-  Grid,
   Box,
   Center,
   Text,
