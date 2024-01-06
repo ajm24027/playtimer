@@ -4,16 +4,9 @@ import { CloseIcon } from "@chakra-ui/icons";
 import { IncomingTimerProps } from "../../types/app-types";
 import "../../global.css";
 import { GameKey, timerStyles } from "./timerStyles";
-import { UseTimerOptions, useTimer } from "./useTimer";
+import { useTimer } from "./useTimer";
 
-interface TimerProps extends IncomingTimerProps {
-  name: string;
-  initialTime: UseTimerOptions;
-  game: keyof typeof timerStyles;
-  terminateTimer: () => void;
-}
-
-const TimerComp = ({ name, initialTime, game, terminateTimer }: TimerProps) => {
+const TimerComp = ({ name, initialTime, game, terminateTimer }: IncomingTimerProps) => {
   const { value, isExpired, isPaused, onPause, onReset, onResume } = useTimer(initialTime)
 
   const renderControls = () => {
