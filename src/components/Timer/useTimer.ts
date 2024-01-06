@@ -58,5 +58,4 @@ export const useTimer = ({
         onPause,
         value: moment.utc(timer.asMilliseconds()).format(getFormat())
     }
-
 }

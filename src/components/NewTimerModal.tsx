@@ -46,7 +46,6 @@ const NewTimerModal: React.FC<NewTimerModalProps> = ({ onModalComplete }) => {
     if (phase === Phase.SetName) {
       return
     }
-    console.log('goBackOnePhase firing')
     setPhase((prevPhase) => prevPhase - 1)
   }
 
@@ -70,11 +69,12 @@ const NewTimerModal: React.FC<NewTimerModalProps> = ({ onModalComplete }) => {
     if (phase !== Phase.Complete) {
       return
     }
+
     const complete = newTimerParams.name && newTimerParams.game && newTimerParams.initialTime
     if (!complete) {
       return
     }
-    console.log({ newTimerParams })
+
     onModalComplete(newTimerParams)
     resetModal()
   }, [phase])

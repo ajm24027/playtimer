@@ -107,7 +107,6 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext, onClickBack }) => {
           type="submit"
           onClick={() => {
             const { minutes, seconds } = countdown
-            console.log({ minutes, seconds })
             onClickNext({ initialTime: { minutes, seconds } })
           }}
         >
