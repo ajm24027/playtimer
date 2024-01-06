@@ -1,30 +1,22 @@
-export interface Timer {
-  title: string;
-  game: string;
-  initialTime: string;
-  timeAtPause: string
+import { GameKey } from "../components/Timer/timerStyles";
+import { UseTimerOptions } from "../components/Timer/useTimer";
+
+export interface TimerConfig {
+  name: string;
+  initialTime: UseTimerOptions;
+  game: GameKey;
 }
 
-export interface IncomingTimerProps {
-  name: string;
-  initialTime: string;
-  game: string;
+export interface IncomingTimerProps extends TimerConfig {
   terminateTimer: () => void;
 }
 
 export interface PhaseNavProps {
-  onClickNext: (game: string) => void
+  onClickNext: (values: Partial<TimerConfig>) => void
   onClickBack?: () => void
 }
 
 export interface NewTimerModalProps {
-  onModalComplete: (timerParams: Timer) => void;
+  onModalComplete: (config: TimerConfig) => void;
 }
 
-export interface GamesBackgroundsAndBorder {
-  [key: string]: {
-    backgroundImage: string
-    borderColor: string
-    boxShadow: string
-  }
-}

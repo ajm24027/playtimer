@@ -14,7 +14,7 @@ import {
 import { PhaseNavProps } from '../../types/app-types'
 import { useState } from 'react'
 
-const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
+const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext, onClickBack }) => {
   const [countdown, SetCountDown] = useState({
     hours: 0,
     minutes: 0,
@@ -50,8 +50,8 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
               focusBorderColor="green.500"
               defaultValue={30}
               value={countdown.minutes}
-              onChange={(e) =>
-                SetCountDown({ ...countdown, minutes: parseInt(e, 10) })
+              onChange={(value) =>
+                SetCountDown({ ...countdown, minutes: +value })
               }
               min={1}
               max={59}
@@ -72,8 +72,8 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
               focusBorderColor="green.500"
               defaultValue={0}
               value={countdown.seconds}
-              onChange={(e) =>
-                SetCountDown({ ...countdown, seconds: parseInt(e, 10) })
+              onChange={(value) =>
+                SetCountDown({ ...countdown, seconds: +value })
               }
               min={0}
               max={59}
@@ -98,7 +98,7 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
     <>
       {renderNumInputs()}
       <HStack mt={4} justify="space-between">
-        <Button>Back</Button>
+        <Button onClick={onClickBack}>Back</Button>
         <Button
           isDisabled={
             countdown.minutes === 0 && countdown.seconds === 0 ? true : false
@@ -106,18 +106,9 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
           colorScheme="green"
           type="submit"
           onClick={() => {
-            const formattedCountdown = () => {
-              const { minutes, seconds } = countdown
-              return (
-                // (hours > 9 ? hours : "0" + hours) +
-                // ":" +
-                (minutes > 9 ? minutes : '0' + minutes) +
-                ':' +
-                (seconds > 9 ? seconds : '0' + seconds)
-              )
-            }
-            // console.log(formattedCountdown())
-            onClickNext(formattedCountdown())
+            const { minutes, seconds } = countdown
+            console.log({ minutes, seconds })
+            onClickNext({ initialTime: { minutes, seconds } })
           }}
         >
           Create Timer

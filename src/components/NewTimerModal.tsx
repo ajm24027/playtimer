@@ -10,42 +10,78 @@ import {
   Button
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
-import { useState, useEffect } from 'react'
-import { Timer, NewTimerModalProps } from '../types/app-types'
+import { useEffect, useState, } from 'react'
+import { NewTimerModalProps, IncomingTimerProps, TimerConfig } from '../types/app-types'
 import NamingPhase from './ModalSteps/NamingPhase'
 import GamingPhase from './ModalSteps/GamingPhase'
 import TimingPhase from './ModalSteps/TimingPhase'
+import { GameKey } from './Timer/timerStyles'
 
 enum Phase {
   SetName,
   SetGameType,
-  SetCountdown
+  SetCountdown,
+  Complete
+}
+
+const initialParams = {
+  name: '',
+  game: '' as GameKey,
+  initialTime: { minutes: 0, seconds: 0 },
 }
 
 const NewTimerModal: React.FC<NewTimerModalProps> = ({ onModalComplete }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [phase, setPhase] = useState<Phase>(Phase.SetName)
-  const [newTimerParams, setNewTimerParams] = useState<Timer>({
-    title: '',
-    game: '',
-    initialTime: '',
-    timeAtPause: ''
-  })
+  const [newTimerParams, setNewTimerParams] = useState<TimerConfig>(initialParams)
 
-  const initialTimerParams = {
-    title: '',
-    game: '',
-    initialTime: '',
-    timeAtPause: ''
+
+  const resetModal = () => {
+    onClose()
+    setPhase(Phase.SetName)
+    setNewTimerParams(initialParams)
   }
 
-  const goBackOnePhase = () => {
-    if (phase > 0) {
-      console.log('goBackOnePhase firing')
-      setPhase((prevPhase) => prevPhase - 1)
-    } else {
-      return null
+  const onBack = () => {
+    if (phase === Phase.SetName) {
+      return
     }
+    console.log('goBackOnePhase firing')
+    setPhase((prevPhase) => prevPhase - 1)
+  }
+
+  const nextPhase = () => {
+    const transitions: Partial<Record<Phase, Phase>> = {
+      [Phase.SetName]: Phase.SetGameType,
+      [Phase.SetGameType]: Phase.SetCountdown,
+      [Phase.SetCountdown]: Phase.Complete
+    }
+
+    const nextPhase = transitions[phase]
+    if (nextPhase) {
+      return setPhase(nextPhase)
+    }
+
+  }
+
+
+
+  useEffect(() => {
+    if (phase !== Phase.Complete) {
+      return
+    }
+    const complete = newTimerParams.name && newTimerParams.game && newTimerParams.initialTime
+    if (!complete) {
+      return
+    }
+    console.log({ newTimerParams })
+    onModalComplete(newTimerParams)
+    resetModal()
+  }, [phase])
+
+  const onClickNext = (values: Partial<IncomingTimerProps>) => {
+    setNewTimerParams(prev => ({ ...prev, ...values }))
+    nextPhase()
   }
 
   const renderModalByPhase = () => {
@@ -53,51 +89,25 @@ const NewTimerModal: React.FC<NewTimerModalProps> = ({ onModalComplete }) => {
       case Phase.SetName:
         return (
           <NamingPhase
-            onClickNext={(title: string) => {
-              setNewTimerParams({ ...newTimerParams, title })
-              setPhase(Phase.SetGameType)
-            }}
+            onClickNext={onClickNext}
           />
         )
       case Phase.SetGameType:
         return (
           <GamingPhase
-            onClickBack={goBackOnePhase}
-            onClickNext={(game: string) => {
-              setNewTimerParams({ ...newTimerParams, game })
-              setPhase(Phase.SetCountdown)
-            }}
+            onClickBack={onBack}
+            onClickNext={onClickNext}
           />
         )
       case Phase.SetCountdown:
         return (
           <TimingPhase
-            onClickNext={(initialTime: string) => {
-              setNewTimerParams({ ...newTimerParams, initialTime })
-              setPhase(Phase.SetName)
-              onClose()
-            }}
+            onClickBack={onBack}
+            onClickNext={onClickNext}
           />
         )
     }
   }
-
-  const resetModal = () => {
-    onClose()
-    setPhase(Phase.SetName)
-    setNewTimerParams(initialTimerParams)
-  }
-
-  useEffect(() => {
-    if (
-      newTimerParams.title &&
-      newTimerParams.game &&
-      newTimerParams.initialTime
-    ) {
-      onModalComplete(newTimerParams)
-      setNewTimerParams(initialTimerParams)
-    }
-  }, [newTimerParams])
 
   return (
     <>
