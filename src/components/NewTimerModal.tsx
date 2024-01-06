@@ -35,7 +35,6 @@ const NewTimerModal: React.FC<NewTimerModalProps> = ({ onModalComplete }) => {
   const [phase, setPhase] = useState<Phase>(Phase.SetName)
   const [newTimerParams, setNewTimerParams] = useState<TimerConfig>(initialParams)
 
-
   const resetModal = () => {
     onClose()
     setPhase(Phase.SetName)
@@ -60,10 +59,7 @@ const NewTimerModal: React.FC<NewTimerModalProps> = ({ onModalComplete }) => {
     if (nextPhase) {
       return setPhase(nextPhase)
     }
-
   }
-
-
 
   useEffect(() => {
     if (phase !== Phase.Complete) {
