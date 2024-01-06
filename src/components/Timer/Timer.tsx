@@ -2,7 +2,6 @@
 import { Center, VStack, HStack, Button, Box } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { IncomingTimerProps } from "../../types/app-types";
-import "../../global.css";
 import { GameKey, timerStyles } from "./timerStyles";
 import { useTimer } from "./useTimer";
 
