@@ -1,12 +1,25 @@
 
-import { Center, VStack, HStack, Button, Box } from "@chakra-ui/react";
+import { Center, VStack, HStack, Button, Box, useDisclosure } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
-import { IncomingTimerProps } from "../../types/app-types";
+import { IncomingTimerProps, PhaseNavProps } from "../../types/app-types";
 import { GameKey, timerStyles } from "./timerStyles";
 import { useTimer } from "./useTimer";
+import { Modal } from "../Modal";
+import TimingPhase from "../ModalSteps/TimingPhase";
 
 const TimerComp = ({ name, initialTime, game, terminateTimer }: IncomingTimerProps) => {
-  const { value, isExpired, isPaused, onPause, onReset, onResume } = useTimer(initialTime)
+  const { value, isExpired, isPaused, onPause, onReset, onResume, changeTime, currentOptions } = useTimer(initialTime)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const onOpenChangeTime = () => {
+    onPause()
+    onOpen()
+  }
+
+  const onChangeTime: PhaseNavProps['onClickNext'] = value => {
+    changeTime(value.initialTime!);
+    onClose()
+  }
 
   const renderControls = () => {
     const resetButton = (<Button colorScheme="orange" w="100%" onClick={onReset}>Reset</Button>)
@@ -17,8 +30,9 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }: IncomingTimerPro
     return (<HStack spacing={8} w="100%">
       {resetButton}
       {!isPaused
-        ? <Button w="100%" colorScheme="yellow" onClick={onPause}>Pause</Button>
+        ? <Button colorScheme="yellow" w="100%" onClick={onPause}>Pause</Button>
         : <Button colorScheme="green" w="100%" onClick={onResume}>Start</Button>}
+      <Button colorScheme="cyan" w="100%" onClick={onOpenChangeTime}>Change Time</Button>
     </HStack>)
   };
 
@@ -74,7 +88,16 @@ const TimerComp = ({ name, initialTime, game, terminateTimer }: IncomingTimerPro
     );
   };
 
-  return <>{renderTimer(game)}</>;
+  const renderChangeTime = () => {
+    return <Modal isOpen={isOpen} title="Change Time" onClose={onClose}>
+      <TimingPhase onClickBack={onClose} onClickNext={onChangeTime} initialValue={currentOptions} />
+    </Modal>
+  }
+
+  return <>
+    {renderTimer(game)}
+    {renderChangeTime()}
+  </>
 };
 
 export default TimerComp;

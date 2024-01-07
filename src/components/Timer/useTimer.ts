@@ -4,10 +4,7 @@ import { useEffect, useRef, useState } from "react"
 
 
 export type UseTimerOptions = { minutes: number, seconds: number }
-export const useTimer = ({
-    minutes, seconds
-}: UseTimerOptions) => {
-
+export const useTimer = ({ minutes, seconds }: UseTimerOptions) => {
     const [timer, setTimer] = useState<Duration>(moment.duration({ minutes, seconds }))
     const [isActive, setActive] = useState(false)
     const interval = useRef<number>()
@@ -41,6 +38,10 @@ export const useTimer = ({
         setActive(true)
     }
 
+    const changeTime = (options: UseTimerOptions) => {
+        setTimer(moment.duration(options))
+    }
+
     const getFormat = () => {
         const seconds = timer.asSeconds();
         if (seconds >= 60) {
@@ -50,12 +51,17 @@ export const useTimer = ({
     }
 
     return {
+        currentOptions: {
+            minutes: timer.minutes(),
+            seconds: timer.seconds()
+        },
         isActive,
         isPaused: !isActive,
         isExpired: timer.asSeconds() === 0,
         onReset,
         onResume,
         onPause,
+        changeTime,
         value: moment.utc(timer.asMilliseconds()).format(getFormat())
     }
 }

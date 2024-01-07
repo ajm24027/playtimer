@@ -11,15 +11,12 @@ import {
   FormControl,
   FormLabel
 } from '@chakra-ui/react'
-import { PhaseNavProps } from '../../types/app-types'
+import { PhaseNavProps, } from '../../types/app-types'
 import { useState } from 'react'
+import { UseTimerOptions } from '../Timer/useTimer'
 
-const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext, onClickBack }) => {
-  const [countdown, SetCountDown] = useState({
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  })
+const TimingPhase: React.FC<PhaseNavProps & { initialValue?: UseTimerOptions }> = ({ onClickNext, onClickBack, initialValue }) => {
+  const [countdown, setCountdown] = useState<UseTimerOptions>(initialValue ?? { minutes: 0, seconds: 0 })
 
   const renderNumInputs = () => {
     return (
@@ -31,7 +28,7 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext, onClickBack }) => {
             defaultValue={0}
             value={countdown.hours}
             onChange={(e) =>
-              SetCountDown({ ...countdown, hours: parseInt(e, 10) })
+              setCountdown({ ...countdown, hours: parseInt(e, 10) })
             }
             min={0}
             max={23}
@@ -51,7 +48,7 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext, onClickBack }) => {
               defaultValue={30}
               value={countdown.minutes}
               onChange={(value) =>
-                SetCountDown({ ...countdown, minutes: +value })
+                setCountdown({ ...countdown, minutes: +value })
               }
               min={1}
               max={59}
@@ -73,7 +70,7 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext, onClickBack }) => {
               defaultValue={0}
               value={countdown.seconds}
               onChange={(value) =>
-                SetCountDown({ ...countdown, seconds: +value })
+                setCountdown({ ...countdown, seconds: +value })
               }
               min={0}
               max={59}
@@ -110,7 +107,7 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext, onClickBack }) => {
             onClickNext({ initialTime: { minutes, seconds } })
           }}
         >
-          Create Timer
+          Save Timer
         </Button>
       </HStack>
     </>
