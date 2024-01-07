@@ -31,7 +31,7 @@ const NamingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
         colorScheme="green"
         type="submit"
         rightIcon={<ArrowForwardIcon />}
-        onClick={() => onClickNext(name)}
+        onClick={() => onClickNext({ name })}
         mt={4}
         isDisabled={name === '' ? true : false}
       >

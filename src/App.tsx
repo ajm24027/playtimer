@@ -1,6 +1,6 @@
 import './global.css'
 import NewTimerModal from './components/NewTimerModal'
-import TimerComp from './components/Timer'
+import TimerComp from './components/Timer/Timer'
 import {
   Box,
   Center,
@@ -11,15 +11,12 @@ import {
   SimpleGrid
 } from '@chakra-ui/react'
 import { useState } from 'react'
+import { TimerConfig } from './types/app-types'
 
-interface TimerObj {
-  title: string
-  initialTime: string
-  game: string
-}
+
 
 const App = () => {
-  const [timers, setTimers] = useState<TimerObj[]>([])
+  const [timers, setTimers] = useState<TimerConfig[]>([])
 
   const removeTimerFromState = (timerIndex: number) => {
     const newTimers = timers.filter((_timer, index) => index !== timerIndex)
@@ -34,7 +31,7 @@ const App = () => {
     >
       {timers.length < 4 ? (
         <NewTimerModal
-          onModalComplete={(newTimerObj: TimerObj) => {
+          onModalComplete={(newTimerObj: TimerConfig) => {
             setTimers([...timers, newTimerObj])
           }}
         />
@@ -54,7 +51,7 @@ const App = () => {
           {timers.map((timer, i) => (
             <TimerComp
               key={i}
-              name={timer.title}
+              name={timer.name}
               initialTime={timer.initialTime}
               game={timer.game}
               terminateTimer={() => removeTimerFromState(i)}
