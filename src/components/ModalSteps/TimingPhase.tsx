@@ -11,15 +11,12 @@ import {
   FormControl,
   FormLabel
 } from '@chakra-ui/react'
-import { PhaseNavProps } from '../../types/app-types'
+import { PhaseNavProps, } from '../../types/app-types'
 import { useState } from 'react'
+import { UseTimerOptions } from '../Timer/useTimer'
 
-const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
-  const [countdown, SetCountDown] = useState({
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  })
+const TimingPhase: React.FC<PhaseNavProps & { initialValue?: UseTimerOptions }> = ({ onClickNext, onClickBack, initialValue }) => {
+  const [countdown, setCountdown] = useState<UseTimerOptions>(initialValue ?? { minutes: 0, seconds: 0 })
 
   const renderNumInputs = () => {
     return (
@@ -31,7 +28,7 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
             defaultValue={0}
             value={countdown.hours}
             onChange={(e) =>
-              SetCountDown({ ...countdown, hours: parseInt(e, 10) })
+              setCountdown({ ...countdown, hours: parseInt(e, 10) })
             }
             min={0}
             max={23}
@@ -50,8 +47,8 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
               focusBorderColor="green.500"
               defaultValue={30}
               value={countdown.minutes}
-              onChange={(e) =>
-                SetCountDown({ ...countdown, minutes: parseInt(e, 10) })
+              onChange={(value) =>
+                setCountdown({ ...countdown, minutes: +value })
               }
               min={1}
               max={59}
@@ -72,8 +69,8 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
               focusBorderColor="green.500"
               defaultValue={0}
               value={countdown.seconds}
-              onChange={(e) =>
-                SetCountDown({ ...countdown, seconds: parseInt(e, 10) })
+              onChange={(value) =>
+                setCountdown({ ...countdown, seconds: +value })
               }
               min={0}
               max={59}
@@ -98,7 +95,7 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
     <>
       {renderNumInputs()}
       <HStack mt={4} justify="space-between">
-        <Button>Back</Button>
+        <Button onClick={onClickBack}>Back</Button>
         <Button
           isDisabled={
             countdown.minutes === 0 && countdown.seconds === 0 ? true : false
@@ -106,21 +103,11 @@ const TimingPhase: React.FC<PhaseNavProps> = ({ onClickNext }) => {
           colorScheme="green"
           type="submit"
           onClick={() => {
-            const formattedCountdown = () => {
-              const { minutes, seconds } = countdown
-              return (
-                // (hours > 9 ? hours : "0" + hours) +
-                // ":" +
-                (minutes > 9 ? minutes : '0' + minutes) +
-                ':' +
-                (seconds > 9 ? seconds : '0' + seconds)
-              )
-            }
-            // console.log(formattedCountdown())
-            onClickNext(formattedCountdown())
+            const { minutes, seconds } = countdown
+            onClickNext({ initialTime: { minutes, seconds } })
           }}
         >
-          Create Timer
+          Save Timer
         </Button>
       </HStack>
     </>

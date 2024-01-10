@@ -9,6 +9,7 @@ import {
 import { PhaseNavProps } from '../../types/app-types'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
+import { GameKey } from '../Timer/timerStyles'
 
 const GamingPhase: React.FC<PhaseNavProps> = ({ onClickNext, onClickBack }) => {
   const [game, setGame] = useState('')
@@ -41,8 +42,8 @@ const GamingPhase: React.FC<PhaseNavProps> = ({ onClickNext, onClickBack }) => {
           colorScheme="green"
           type="submit"
           rightIcon={<ArrowForwardIcon />}
-          isDisabled={game === '' ? true : false}
-          onClick={() => onClickNext(game)}
+          isDisabled={game === ''}
+          onClick={() => onClickNext({ game: game as GameKey })}
         >
           Set Timer Length
         </Button>
