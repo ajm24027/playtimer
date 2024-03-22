@@ -114,7 +114,9 @@ const TimerComp = ({
           <Center h="100%">
             <VStack minWidth="30%" maxWidth="70%" my="auto">
               <p className="timer-name">{name}</p>
-              <h2 className="timer-time">{value}</h2>
+              <h2 className={isExpired ? 'timer-time-expired' : 'timer-time'}>
+                {value}
+              </h2>
               {renderControls()}
             </VStack>
           </Center>
