@@ -9,14 +9,18 @@ import {
   Button,
   Text,
   FormControl,
-  FormLabel
-} from '@chakra-ui/react'
-import { PhaseNavProps, } from '../../types/app-types'
-import { useState } from 'react'
-import { UseTimerOptions } from '../Timer/useTimer'
+  FormLabel,
+} from "@chakra-ui/react";
+import { PhaseNavProps } from "../../types/app-types";
+import { useState } from "react";
+import { UseTimerOptions } from "../Timer/useTimer";
 
-const TimingPhase: React.FC<PhaseNavProps & { initialValue?: UseTimerOptions }> = ({ onClickNext, onClickBack, initialValue }) => {
-  const [countdown, setCountdown] = useState<UseTimerOptions>(initialValue ?? { minutes: 0, seconds: 0 })
+const TimingPhase: React.FC<
+  PhaseNavProps & { initialValue?: UseTimerOptions }
+> = ({ onClickNext, onClickBack, initialValue }) => {
+  const [countdown, setCountdown] = useState<UseTimerOptions>(
+    initialValue ?? { minutes: 0, seconds: 0 }
+  );
 
   const renderNumInputs = () => {
     return (
@@ -51,7 +55,6 @@ const TimingPhase: React.FC<PhaseNavProps & { initialValue?: UseTimerOptions }> 
                 setCountdown({ ...countdown, minutes: +value })
               }
               min={1}
-              max={59}
             >
               <NumberInputField />
               <NumberInputStepper>
@@ -88,8 +91,8 @@ const TimingPhase: React.FC<PhaseNavProps & { initialValue?: UseTimerOptions }> 
           </VStack>
         </HStack>
       </FormControl>
-    )
-  }
+    );
+  };
 
   return (
     <>
@@ -103,15 +106,15 @@ const TimingPhase: React.FC<PhaseNavProps & { initialValue?: UseTimerOptions }> 
           colorScheme="green"
           type="submit"
           onClick={() => {
-            const { minutes, seconds } = countdown
-            onClickNext({ initialTime: { minutes, seconds } })
+            const { minutes, seconds } = countdown;
+            onClickNext({ initialTime: { minutes, seconds } });
           }}
         >
           Save Timer
         </Button>
       </HStack>
     </>
-  )
-}
+  );
+};
 
-export default TimingPhase
+export default TimingPhase;
