@@ -4,15 +4,19 @@ import {
   FormLabel,
   Button,
   Select,
-  HStack
-} from '@chakra-ui/react'
-import { PhaseNavProps } from '../../types/app-types'
-import { ArrowForwardIcon } from '@chakra-ui/icons'
-import { useState } from 'react'
-import { GameKey } from '../Timer/timerStyles'
+  HStack,
+} from "@chakra-ui/react";
+import { PhaseNavProps } from "../../types/app-types";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { useState } from "react";
+import { GameKey } from "../Timer/timerStyles";
+
+const optionStyle = {
+  color: "black",
+};
 
 const GamingPhase: React.FC<PhaseNavProps> = ({ onClickNext, onClickBack }) => {
-  const [game, setGame] = useState('')
+  const [game, setGame] = useState("");
   return (
     <Container>
       <FormControl isRequired={true}>
@@ -24,15 +28,33 @@ const GamingPhase: React.FC<PhaseNavProps> = ({ onClickNext, onClickBack }) => {
           placeholder="Choose a game here"
           value={game}
         >
-          <option value="lorcana">Lorcana</option>
-          <option value="onepiece">One Piece</option>
-          <option value="mtg">Magic The Gathering</option>
-          <option value="bss">Battle Spirits Saga</option>
-          <option value="fab">Flesh and Blood</option>
-          <option value="pokemon">Pokémon</option>
-          <option value="digimon">Digimon</option>
-          <option value="shadowverse">Shadowverse</option>
-          <option value="dragonball">Dragon Ball Super</option>
+          <option style={optionStyle} value="lorcana">
+            Lorcana
+          </option>
+          <option style={optionStyle} value="onepiece">
+            One Piece
+          </option>
+          <option style={optionStyle} value="mtg">
+            Magic The Gathering
+          </option>
+          <option style={optionStyle} value="bss">
+            Battle Spirits Saga
+          </option>
+          <option style={optionStyle} value="fab">
+            Flesh and Blood
+          </option>
+          <option style={optionStyle} value="pokemon">
+            Pokémon
+          </option>
+          <option style={optionStyle} value="digimon">
+            Digimon
+          </option>
+          <option style={optionStyle} value="shadowverse">
+            Shadowverse
+          </option>
+          <option style={optionStyle} value="dragonball">
+            Dragon Ball Super
+          </option>
         </Select>
       </FormControl>
       <HStack mt={4} justify="space-between">
@@ -42,13 +64,13 @@ const GamingPhase: React.FC<PhaseNavProps> = ({ onClickNext, onClickBack }) => {
           colorScheme="green"
           type="submit"
           rightIcon={<ArrowForwardIcon />}
-          isDisabled={game === ''}
+          isDisabled={game === ""}
           onClick={() => onClickNext({ game: game as GameKey })}
         >
           Set Timer Length
         </Button>
       </HStack>
     </Container>
-  )
-}
-export default GamingPhase
+  );
+};
+export default GamingPhase;
